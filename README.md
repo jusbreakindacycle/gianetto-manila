@@ -51,11 +51,11 @@ See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) and [docs/DECISIONS.md](docs/DE
 
 - Next.js App Router project initialized with TypeScript, Tailwind CSS, and ESLint.
 - `src` directory layout with the `@/*` import alias configured.
-- A minimal, clearly provisional foundation page at `src/app/page.tsx`.
+- A temporary branded Gianetto landing page at `src/app/page.tsx`.
 - Full project documentation pack committed under `docs/`.
 - No Supabase integration, authentication, database, or restaurant features exist yet.
 
-The current homepage is a temporary technical placeholder, not the final Gianetto design.
+The current homepage is a temporary branded landing page, not the final Gianetto homepage. No operational restaurant content has been published, and no Supabase, database, authentication, or restaurant feature modules exist yet.
 
 ## 6. Planned Public Features
 
@@ -106,7 +106,7 @@ npm install
 npm run dev
 ```
 
-The foundation page is served from [src/app/page.tsx](src/app/page.tsx).
+The temporary landing page is served from [src/app/page.tsx](src/app/page.tsx).
 
 ## 10. Available npm Commands
 

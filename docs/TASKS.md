@@ -1166,7 +1166,7 @@ Do not create empty future feature trees.
 ## TASK-033 — Add Base Metadata
 
 **Phase:** Repository Initialization  
-**Status:** BACKLOG  
+**Status:** DONE  
 **Priority:** MEDIUM  
 **Dependencies:** TASK-025  
 
@@ -1185,6 +1185,51 @@ Gianetto Official Website — Development
 - no unsupported business claim;
 - favicon remains provisional unless approved;
 - production canonical URL is not invented.
+
+### Completion Evidence
+
+- temporary Gianetto title (`Gianetto | Official Website`) and description were added to `src/app/layout.tsx`;
+- no canonical domain or unsupported metadata was added.
+
+---
+
+## TASK-033A — Replace Technical Placeholder with Temporary Branded Landing Page
+
+**Phase:** Repository Initialization  
+**Status:** DONE  
+**Priority:** HIGH  
+**Dependencies:** TASK-025, TASK-027R, TASK-033  
+
+### Objective
+
+Replace the technical development placeholder with a temporary branded Gianetto landing page while the complete public website remains under development.
+
+### Allowed Scope
+
+- `src/app/page.tsx`
+- `src/app/layout.tsx`
+- `src/app/globals.css`
+- `README.md`
+- `docs/TASKS.md`
+
+### Acceptance Criteria
+
+- technical placeholder removed;
+- temporary approved content displayed;
+- responsive warm restaurant presentation;
+- page remains a Server Component;
+- no unverified operational content;
+- no external media or packages;
+- lint, type-check, and build pass.
+
+### Completion Evidence
+
+- `src/app/page.tsx` replaced with the approved temporary landing-page content and structure, kept as a Server Component with no client-side hooks or APIs;
+- `src/app/layout.tsx` metadata updated to the approved temporary title and description;
+- `src/app/globals.css` extended with a clearly labeled temporary, page-scoped style block (no changes to shared root tokens);
+- no packages, environment files, or media assets were added;
+- `README.md` and `docs/TASKS.md` updated to reflect the new landing page;
+- lint, `tsc --noEmit`, and production build passed before commit.
 
 ---
 

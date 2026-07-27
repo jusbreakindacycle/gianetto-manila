@@ -13,8 +13,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Gianetto Project Foundation",
-  description: "Development environment only.",
+  title: "Gianetto | Official Website",
+  description:
+    "The official Gianetto website is being prepared with menu, branch, reservation, private-event, and upcoming-event information.",
 };
 
 export default function RootLayout({
