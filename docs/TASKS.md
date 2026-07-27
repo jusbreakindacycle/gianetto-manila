@@ -1097,7 +1097,7 @@ tsc --noEmit
 ## TASK-030 — Initialize shadcn/ui
 
 **Phase:** Repository Initialization  
-**Status:** BACKLOG  
+**Status:** DONE  
 **Priority:** HIGH  
 **Dependencies:** TASK-025  
 
@@ -1117,6 +1117,26 @@ Initialize shadcn/ui using the approved primitive configuration.
 - one test component can render;
 - design tokens remain customizable;
 - no generic dashboard layout is added.
+
+### Note on CLI Configuration Drift
+
+The installed CLI (`shadcn@4.15.0`+) no longer supports the classic `style: new-york` / `baseColor: stone` flags assumed when this task was written. The old style concept has been replaced by named built-in presets (`nova, vega, maia, lyra, mira, luma, sera, rhea`), none of which use a `stone` base color; reaching `stone` requires the web-based Custom preset builder at ui.shadcn.com, which was ruled out for this task. The developer approved substituting the closest built-in preset instead.
+
+### Completion Evidence
+
+- shadcn/ui initialized via `npx shadcn@latest init -b base -p rhea --css-variables --no-rtl`;
+- Base UI selected (`"base": "base"` in `components.json`);
+- current CLI preset system used in place of the legacy style/base-color flow; **Rhea** selected as the closest built-in preset (`style: "base-rhea"`, `iconLibrary: "lucide"`, matching the approved Base UI and Lucide requirements);
+- **final Gianetto Stone-based color tokens remain pending TASK-034** — Rhea's default `baseColor: "neutral"` is a placeholder only;
+- CSS variables enabled (`cssVariables: true`);
+- `components.json` and `src/lib/utils.ts` (`cn` helper) created;
+- approved aliases confirmed: `@/components`, `@/lib/utils`, `@/components/ui`, `@/lib`, `@/hooks`;
+- Tailwind v4 config path left blank; CSS file points to `src/app/globals.css`;
+- no shadcn UI components installed (`src/components/ui` does not exist);
+- the CLI's automatic font-wiring step modified `src/app/layout.tsx` (adding an Inter font import); this was reverted to preserve the original file per this task's scope, since layout.tsx changes are out of scope until TASK-035;
+- dependencies added: `@base-ui/react`, `class-variance-authority`, `clsx`, `lucide-react`, `shadcn`, `tailwind-merge`, `tw-animate-css`;
+- lint, `npm run type-check`, and production build all passed before commit;
+- `git diff --check` passed; only approved files changed.
 
 ---
 

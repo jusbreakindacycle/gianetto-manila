@@ -34,12 +34,12 @@ Next.js App Router
 TypeScript
 Tailwind CSS
 ESLint
+shadcn/ui (initialized, Base UI primitive layer)
 ```
 
 Approved but **not yet implemented**:
 
 ```text
-shadcn/ui
 Supabase PostgreSQL
 Supabase Auth
 Supabase Storage
@@ -52,6 +52,7 @@ See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) and [docs/DECISIONS.md](docs/DE
 - Next.js App Router project initialized with TypeScript, Tailwind CSS, and ESLint.
 - `src` directory layout with the `@/*` import alias configured.
 - A temporary branded Gianetto landing page at `src/app/page.tsx`.
+- shadcn/ui initialized using the Base UI primitive layer (`components.json`, `src/lib/utils.ts`). No shadcn components have been installed yet; the custom Gianetto design system (colors, typography) is still pending.
 - Full project documentation pack committed under `docs/`.
 - No Supabase integration, authentication, database, or restaurant features exist yet.
 
