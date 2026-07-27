@@ -121,7 +121,11 @@ A `type-check` script has not been added yet.
 
 ## 11. Environment Configuration Status
 
-No environment variables or `.env` files exist in this repository yet. Supabase has not been configured, and no credentials of any kind should be committed to this repository.
+`.env.example` documents the expected public Supabase environment-variable names (`NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`). No real environment values are committed to this repository, and Supabase has not yet been configured or connected.
+
+When the development Supabase project is created and approved, developers will copy the variable names from `.env.example` into a local `.env.local` file and populate the real values there. `.env.local` remains excluded from version control by `.gitignore`.
+
+No service-role key is required or present at the current stage.
 
 ## 12. Documentation Index
 

@@ -1034,7 +1034,7 @@ Reconcile the repository README and task tracker with the actual completed initi
 ## TASK-028 — Add `.env.example`
 
 **Phase:** Repository Initialization  
-**Status:** BACKLOG  
+**Status:** DONE  
 **Priority:** HIGH  
 **Dependencies:** TASK-025  
 
@@ -1052,6 +1052,15 @@ Service-role placeholder should be added only when later required.
 - `.env.example` is committed;
 - `.env.local` is ignored;
 - no live key appears.
+
+### Completion Evidence
+
+- `.env.example` created with the approved empty public Supabase placeholders;
+- `.gitignore` updated to permit `.env.example` while continuing to ignore real environment files;
+- `.env.local` remained ignored;
+- no live credentials or service-role placeholder were added;
+- lint, type-check, build, and Git hygiene checks passed;
+- commit and push completed.
 
 ---
 
