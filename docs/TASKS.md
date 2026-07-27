@@ -1181,7 +1181,7 @@ Document the approved Gianetto governance model: JL controls normal product, des
 ## TASK-031 — Add Initial shadcn Components
 
 **Phase:** Repository Initialization  
-**Status:** BACKLOG  
+**Status:** DONE  
 **Priority:** MEDIUM  
 **Dependencies:** TASK-030  
 
@@ -1204,6 +1204,19 @@ Add form-specific components only when the first form requires them.
 - components compile;
 - accessibility behavior is preserved;
 - no unnecessary packages are added.
+
+### Completion Evidence
+
+- installed via `npx shadcn@latest add button sheet dialog input textarea label --yes`, previewed first with `--dry-run` and `--view`;
+- six component files created: `src/components/ui/button.tsx`, `src/components/ui/sheet.tsx`, `src/components/ui/dialog.tsx`, `src/components/ui/input.tsx`, `src/components/ui/textarea.tsx`, `src/components/ui/label.tsx`;
+- Base UI primitive layer preserved (`@base-ui/react/button`, `@base-ui/react/dialog`, `@base-ui/react/input`) and Rhea preset styling preserved (`style: "base-rhea"` unchanged in `components.json`); no `@radix-ui` or React Aria dependency introduced;
+- Input, Textarea, and Label wrap native `<input>`, `<textarea>`, and `<label>` elements, preserving accessible native behavior;
+- all generated files resolve imports through the approved `@/components/ui` and `@/lib/utils` aliases;
+- no components were customized with Gianetto-specific colors, typography, spacing, or radii; default Rhea preset styling is unchanged, deferred to TASK-034/TASK-037;
+- no application page imports or renders these components yet (`src/app/page.tsx` and `src/app/layout.tsx` untouched);
+- dependency changes: none — `@base-ui/react`, `lucide-react`, `class-variance-authority`, `clsx`, and `tailwind-merge` were already installed under TASK-030; `package.json` and `package-lock.json` were not modified;
+- `components.json` and `src/app/globals.css` were not modified;
+- validation performed: `npx shadcn@latest info` (confirmed `base: base`, `style: base-rhea`, `iconLibrary: lucide`, all six components listed as installed), `npm run lint` (passed), `npm run type-check` (passed), `npm run build` (passed, static export of `/` and `/_not-found`), `git diff --check` (clean), `git status --short` (only the six new files under `src/components/ui/`, plus this documentation update).
 
 ---
 
