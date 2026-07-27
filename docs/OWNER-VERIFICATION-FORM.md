@@ -2455,30 +2455,45 @@ No marketing without separate consent.
 
 ---
 
-# 19. Visual Direction Approval
+# 19. Demo Review and Consolidated Refinement
 
-The proposed working website style includes:
+The website is built demo-first. JL directs day-to-day product, design, layout, and technical decisions while the working demo is assembled, so this section does not ask you to pre-approve page structure, layout, color, typography, or component choices before you have seen the site running.
 
-- deep red;
-- warm ivory;
-- charcoal;
-- muted olive;
-- warm neutral colors;
-- elegant serif headings;
-- clear sans-serif body text;
-- authentic restaurant photography;
-- warm and polished layouts.
+Instead, this section is for reviewing the coherent working demo once it exists. Your review confirms business facts and commitments, identifies required changes, and produces one consolidated feedback set, which the project addresses in a single coordinated refinement pass before final production approval.
 
-## 19.1 Do you approve this general direction?
+## 19.1 Is anything in the demo factually incorrect?
+
+Check the demo against your own knowledge of the business: business identity, branches, contacts, hours, menu, prices, reservation and event rules, and any other stated facts.
 
 ```text
-[ ] Yes
-[ ] Yes, with revisions
-[ ] No
-[ ] Not sure
+[ ] Nothing incorrect found
+[ ] Yes, issues found (list below)
+[ ] Not sure — needs follow-up
 ```
 
-## 19.2 What should be changed?
+**List factual issues:**
+
+```text
+
+```
+
+## 19.2 Does the website promise anything Gianetto cannot operationally honor?
+
+Examples: reservation or confirmation wording, deposit or cancellation terms, response times, delivery or private-event commitments.
+
+```text
+[ ] No unsupportable promises found
+[ ] Yes, issues found (list below)
+[ ] Not sure — needs follow-up
+```
+
+**List unsupportable promises:**
+
+```text
+
+```
+
+## 19.3 What visible changes are strongly requested before launch?
 
 **Answer:**
 
@@ -2486,44 +2501,27 @@ The proposed working website style includes:
 
 ```
 
-## 19.3 Which existing Gianetto materials best represent the desired style?
+## 19.4 Which requested changes are essential versus optional?
 
-Examples:
+List each requested change and mark it.
 
-- menu;
-- storefront;
-- social posts;
-- interior;
-- signage;
-- event posters.
+| Requested Change | Essential | Optional |
+|---|---:|---:|
+|  |  |  |
+|  |  |  |
+|  |  |  |
 
-**Answer:**
-
-```text
-
-```
-
-## 19.4 Are there restaurant websites you like?
-
-Provide names or links for inspiration only.
-
-**Answer:**
+## 19.5 Are the final business facts, commitments, rights, and production content approved?
 
 ```text
-
+[ ] Yes, approved for production
+[ ] Approved with the changes listed above
+[ ] Not yet — further review needed
 ```
 
-## 19.5 Are there styles you do not want?
+## 19.6 General visual preferences or dislikes (optional)
 
-Examples:
-
-- overly formal;
-- too dark;
-- too modern;
-- too colorful;
-- too crowded;
-- luxury style;
-- generic fast-food style.
+This field is optional and does not create a requirement to change the working design system. Routine design-system decisions (color, typography, spacing, and component choices within the approved system) remain JL's responsibility and are not decided through this form.
 
 **Answer:**
 

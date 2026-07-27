@@ -1140,6 +1140,44 @@ The installed CLI (`shadcn@4.15.0`+) no longer supports the classic `style: new-
 
 ---
 
+## TASK-030A — Establish Demo-First Product and Owner Review Governance
+
+**Phase:** Documentation Governance  
+**Status:** DONE  
+**Priority:** HIGH  
+**Dependencies:** TASK-020, TASK-021, TASK-022, TASK-030
+
+### Objective
+
+Document the approved Gianetto governance model: JL controls normal product, design, UX, information-architecture, implementation, and technical decisions during development; the Gianetto owner or authorized representative is not required to review every screen, component, layout, color, or implementation choice; a coherent working demo is built first; the owner then reviews the demo, confirms business facts and commitments, identifies required changes, and provides one consolidated feedback set; the project then completes one coordinated refinement pass before final production approval.
+
+### Allowed Scope
+
+- `docs/AGENT-RULES.md`
+- `docs/DECISIONS.md`
+- `docs/OWNER-VERIFICATION-FORM.md`
+- `docs/TASKS.md`
+
+### Acceptance Criteria
+
+- `AGENT-RULES.md` records a named Product, Design, and Owner Review Authority section stating agents must not block routine development by requesting owner approval for every visual or product choice, listing the escalation boundary (factual business information, operational commitments, legal or privacy obligations, media rights, account ownership, security, production publication), and recording the eight-step demo-first review sequence;
+- `DECISIONS.md` records ADR-083 (Use Demo-First Owner Review with JL as Product and Design Authority, Status ACCEPTED, Priority FOUNDATIONAL, Date 2026-07-28) without renumbering or altering any existing ADR identifier;
+- `OWNER-VERIFICATION-FORM.md` Section 19 is renamed to Demo Review and Consolidated Refinement and no longer asks the owner to pre-approve the visual direction before seeing the working website; it instead asks whether anything is factually incorrect, whether the site promises anything Gianetto cannot operationally honor, what visible changes are strongly requested, which changes are essential versus optional, and whether final business facts, commitments, rights, and production content are approved, while retaining one optional general visual-preferences field;
+- final production approval by the Gianetto owner remains required and is not weakened;
+- JL is not established as the legal or operational owner of Gianetto;
+- no application source, package, or architecture file is modified.
+
+### Completion Evidence
+
+- `docs/AGENT-RULES.md` — added Section 55, "Product, Design, and Owner Review Authority," covering JL's development-time authority, the narrow escalation boundary, and the eight-step demo-first review sequence;
+- `docs/DECISIONS.md` — added ADR-083 in a new Section 21, "Governance and Product-Review Decisions," placed immediately before the Pending Decisions Register; existing sections 21–24 were renumbered to 22–25 to keep document structure correct, and no existing ADR identifier was changed or renumbered;
+- `docs/OWNER-VERIFICATION-FORM.md` — reworked Section 19 into "Demo Review and Consolidated Refinement," replacing pre-build visual-direction approval with post-demo factual, commitment, and change-request review, and retaining one optional general visual-preferences field;
+- `docs/TASKS.md` — added this task record between TASK-030 and TASK-031;
+- no application source, package, or configuration files were modified;
+- `git diff --check` passed with no whitespace errors.
+
+---
+
 ## TASK-031 — Add Initial shadcn Components
 
 **Phase:** Repository Initialization  

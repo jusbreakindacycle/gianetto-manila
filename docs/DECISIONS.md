@@ -2472,7 +2472,109 @@ A mobile application requires separate evidence of need.
 
 ---
 
-# 21. Pending Decisions Register
+# 21. Governance and Product-Review Decisions
+
+## ADR-083 — Use Demo-First Owner Review with JL as Product and Design Authority
+
+**Status:** ACCEPTED  
+**Priority:** FOUNDATIONAL  
+**Date:** 2026-07-28  
+**Decision owners:** Project owner and technical lead
+
+### Context
+
+Requiring the Gianetto owner or an authorized representative to review every screen, component, layout, color, or implementation choice during development would stall routine work and does not match how the owner is available to participate. Most day-to-day product, design, and technical choices do not touch business facts, commitments, legal or privacy obligations, media rights, account ownership, security, or production publication, and do not need owner sign-off before they can proceed.
+
+### Decision
+
+JL controls normal product, design, UX, information-architecture, implementation, and technical decisions during development. The Gianetto owner or authorized representative is not required to review every screen, component, layout, color, or implementation choice.
+
+The project builds a coherent working demo first. The owner then reviews the complete demo, confirms business facts and commitments, identifies required changes, and provides one consolidated feedback set. The project completes one coordinated refinement pass before final production approval.
+
+### Division of Responsibilities
+
+```text
+JL decides without intermediate owner approval:
+- page structure and information architecture;
+- visual composition and responsive layout;
+- normal color, typography, spacing, and component decisions within
+  the documented working design system;
+- interaction patterns and customer journeys;
+- technical implementation and architecture within approved project rules;
+- provisional demo presentation that does not publish unsupported facts;
+- routine usability and accessibility improvements.
+
+Owner approval is required for:
+- official business identity and public factual claims;
+- active branches, addresses, contacts, and operating hours;
+- current menu items, prices, and availability;
+- reservation, private-event, event, deposit, cancellation, and service rules;
+- anything Gianetto must operationally or legally honor;
+- logo, photographs, media rights, and publication permissions;
+- customer-data handling, privacy, production-account ownership, and launch;
+- final production content and business commitments.
+```
+
+### Rationale
+
+Separating routine design and implementation authority from business-fact and commitment approval lets development proceed without waiting on the owner for every visual choice, while preserving owner control over anything Gianetto must actually stand behind. Reviewing one coherent demo is more efficient and more legible to the owner than reviewing fragments as they are built, and produces one consolidated set of feedback instead of many scattered rounds.
+
+### Consequences
+
+Positive:
+
+- development is not blocked by routine approval requests;
+- the owner's attention is spent confirming facts and commitments rather than reviewing components;
+- feedback arrives consolidated, enabling one coordinated refinement pass instead of continuous rework.
+
+Negative:
+
+- the owner will not see incremental design work as it is built, only the assembled demo;
+- provisional content must be tracked carefully so it is never mistaken for verified content before the demo review.
+
+### Escalation Boundaries
+
+An AI agent must stop and escalate rather than deciding silently when a decision affects:
+
+```text
+factual business information
+operational commitments
+legal or privacy obligations
+media rights
+account ownership
+security
+production publication
+```
+
+### Review Sequence
+
+```text
+1. JL directs product and design.
+2. The team builds a coherent working demo.
+3. Unverified facts remain excluded, null, or clearly provisional.
+4. The authorized Gianetto representative reviews the complete demo.
+5. Factual corrections and strongly requested changes are recorded.
+6. Feedback is consolidated.
+7. One coordinated refinement pass is completed.
+8. Final production approval is obtained.
+```
+
+### Final-Production Approval Requirement
+
+This decision does not remove or weaken the owner's final production approval. Production publication of business facts, commitments, media, and account ownership still requires explicit owner approval as recorded in `OWNER-VERIFICATION-FORM.md`. JL is not the legal or operational owner of Gianetto.
+
+### Alternatives Considered
+
+- Require owner approval for every screen or component before it is built — rejected as unworkable given owner availability and unnecessary given the narrow set of decisions that actually carry business risk.
+- Let JL approve business facts and commitments without owner review — rejected because it would let AI-assisted or developer-only work make commitments Gianetto has not agreed to honor.
+
+### Review Triggers
+
+Review if the owner requests more granular visibility into work in progress, or if the demo-first sequence produces feedback that repeatedly arrives too late to address efficiently.
+
+---
+
+# 22. Pending Decisions Register
 
 The following decisions require future resolution.
 
@@ -2495,7 +2597,7 @@ The following decisions require future resolution.
 
 ---
 
-# 22. Decision Change Procedure
+# 23. Decision Change Procedure
 
 A locked decision may be changed only through:
 
@@ -2518,7 +2620,7 @@ It may not approve the change itself.
 
 ---
 
-# 23. Decision Impact Checklist
+# 24. Decision Impact Checklist
 
 Before approving a new decision, review:
 
@@ -2540,7 +2642,7 @@ Does it affect the roadmap?
 
 ---
 
-# 24. Current Accepted Foundation
+# 25. Current Accepted Foundation
 
 The project currently proceeds with:
 

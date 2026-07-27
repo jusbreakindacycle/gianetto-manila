@@ -1740,3 +1740,75 @@ The human developer remains responsible for:
 - testing changes;
 - committing code;
 - authorizing production deployment.
+
+---
+
+# 55. Product, Design, and Owner Review Authority
+
+## 55.1 Purpose
+
+This section defines who decides what during development, and when the Gianetto owner or an authorized representative must be brought in. It implements ADR-083 in `DECISIONS.md`.
+
+## 55.2 JL's Authority During Development
+
+JL (the developer) directs normal product, design, UX, information-architecture, implementation, and technical decisions while the website is being built.
+
+AI agents must not block routine development by requesting owner approval for every visual or product choice. The Gianetto owner or authorized representative is not required to review every screen, component, layout, color, or implementation choice.
+
+Decisions JL may make without intermediate owner approval:
+
+- page structure and information architecture;
+- visual composition and responsive layout;
+- normal color, typography, spacing, and component decisions within the documented working design system;
+- interaction patterns and customer journeys;
+- technical implementation and architecture within approved project rules;
+- provisional demo presentation that does not publish unsupported facts;
+- routine usability and accessibility improvements.
+
+## 55.3 Escalation Boundary
+
+An AI agent must stop and escalate to JL and, where relevant, to the Gianetto owner only when a decision affects:
+
+- factual business information;
+- operational commitments;
+- legal or privacy obligations;
+- media rights;
+- account ownership;
+- security;
+- production publication.
+
+This escalation boundary is narrower than routine design or implementation work. It does not replace the broader `Decision Escalation Rule` in Section 30 or the `Prohibited Agent Actions` in Section 47, which continue to apply in full.
+
+## 55.4 Owner Approval Is Required For
+
+- official business identity and public factual claims;
+- active branches, addresses, contacts, and operating hours;
+- current menu items, prices, and availability;
+- reservation, private-event, event, deposit, cancellation, and service rules;
+- anything Gianetto must operationally or legally honor;
+- logo, photographs, media rights, and publication permissions;
+- customer-data handling, privacy, production-account ownership, and launch;
+- final production content and business commitments.
+
+## 55.5 Demo-First Review Sequence
+
+Development follows this sequence:
+
+```text
+1. JL directs product and design.
+2. The team builds a coherent working demo.
+3. Unverified facts remain excluded, null, or clearly provisional.
+4. The authorized Gianetto representative reviews the complete demo.
+5. Factual corrections and strongly requested changes are recorded.
+6. Feedback is consolidated.
+7. One coordinated refinement pass is completed.
+8. Final production approval is obtained.
+```
+
+The owner reviews a coherent working demo rather than individual screens or components as they are built. Their review confirms business facts and commitments, identifies required changes, and produces one consolidated feedback set, which the project addresses in a single coordinated refinement pass before final production approval.
+
+## 55.6 What This Does Not Change
+
+- JL is not the legal or operational owner of Gianetto.
+- Final production approval by the Gianetto owner or authorized representative remains required.
+- Provisional demo content must never be presented or recorded as verified.
