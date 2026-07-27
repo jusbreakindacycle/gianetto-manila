@@ -1067,7 +1067,7 @@ Service-role placeholder should be added only when later required.
 ## TASK-029 — Add Type-Check Script
 
 **Phase:** Repository Initialization  
-**Status:** BACKLOG  
+**Status:** DONE  
 **Priority:** HIGH  
 **Dependencies:** TASK-025  
 
@@ -1084,6 +1084,13 @@ tsc --noEmit
 - `npm run type-check` succeeds;
 - script uses installed tooling only;
 - no package added unnecessarily.
+
+### Completion Evidence
+
+- `"type-check": "tsc --noEmit"` added to `package.json` using already-installed TypeScript tooling;
+- `README.md` command list updated to include `npm run type-check`;
+- no packages installed and no lockfile changes;
+- lint, `npm run type-check`, and production build all passed before commit.
 
 ---
 

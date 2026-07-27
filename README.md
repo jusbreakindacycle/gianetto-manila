@@ -111,13 +111,12 @@ The temporary landing page is served from [src/app/page.tsx](src/app/page.tsx).
 ## 10. Available npm Commands
 
 ```bash
-npm run dev     # start the local development server
-npm run build   # create a production build
-npm run start   # run the production build locally
-npm run lint    # run ESLint
+npm run dev         # start the local development server
+npm run build       # create a production build
+npm run start       # run the production build locally
+npm run lint        # run ESLint
+npm run type-check  # run the TypeScript compiler in no-emit mode
 ```
-
-A `type-check` script has not been added yet.
 
 ## 11. Environment Configuration Status
 
