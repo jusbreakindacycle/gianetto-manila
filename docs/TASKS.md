@@ -215,10 +215,10 @@ Phase 0 — Business and Content Verification
 Status: IN_PROGRESS
 
 Phase 1 — Project Documentation Foundation
-Status: IN_PROGRESS
+Status: DONE
 
 Phase 2 — Repository and Application Initialization
-Status: NOT STARTED
+Status: IN_PROGRESS
 ```
 
 Completed foundation documents:
@@ -232,15 +232,12 @@ Completed foundation documents:
 06 — CONTENT-INVENTORY.md
 07 — SECURITY.md
 08 — AGENT-RULES.md
-```
-
-Remaining foundation documents:
-
-```text
 09 — TASKS.md
 10 — DECISIONS.md
 11 — OWNER-VERIFICATION-FORM.md
 ```
+
+All eleven foundation documents are complete and committed to the repository under `docs/`.
 
 ---
 
@@ -747,7 +744,7 @@ Collect authentic material for the Our Story page.
 ## TASK-020 — Create `TASKS.md`
 
 **Phase:** Documentation Foundation  
-**Status:** IN_PROGRESS  
+**Status:** DONE  
 **Priority:** CRITICAL  
 **Dependencies:** TASK-014, TASK-019  
 
@@ -763,12 +760,17 @@ Create the operational backlog and execution tracker.
 - blocked business tasks are recorded;
 - future features are separated from MVP.
 
+### Completion Evidence
+
+- `docs/TASKS.md` exists and is committed to the repository;
+- all approved phases and early implementation tasks are represented.
+
 ---
 
 ## TASK-021 — Create `DECISIONS.md`
 
 **Phase:** Documentation Foundation  
-**Status:** READY  
+**Status:** DONE  
 **Priority:** CRITICAL  
 **Dependencies:** TASK-012 to TASK-020  
 
@@ -785,12 +787,17 @@ Create the formal architecture and scope decision register.
 - deferred features are recorded;
 - decision IDs are stable.
 
+### Completion Evidence
+
+- `docs/DECISIONS.md` exists and is committed to the repository;
+- approved stack, scope, and deferred decisions are recorded with stable ADR IDs.
+
 ---
 
 ## TASK-022 — Create `OWNER-VERIFICATION-FORM.md`
 
 **Phase:** Documentation Foundation  
-**Status:** READY  
+**Status:** DONE  
 **Priority:** CRITICAL  
 **Dependencies:** TASK-017  
 
@@ -807,6 +814,10 @@ Create a form that the owner can answer without reading the entire project docum
 - form avoids technical jargon;
 - final approval section is included.
 
+### Completion Evidence
+
+- `docs/OWNER-VERIFICATION-FORM.md` exists and is committed to the repository.
+
 ---
 
 # 8. Phase 2 — Repository Initialization Tasks
@@ -814,7 +825,7 @@ Create a form that the owner can answer without reading the entire project docum
 ## TASK-023 — Select Local Project Directory
 
 **Phase:** Repository Initialization  
-**Status:** BACKLOG  
+**Status:** DONE  
 **Priority:** HIGH  
 **Dependencies:** TASK-021, TASK-022  
 
@@ -835,12 +846,16 @@ C:\Projects\gianetto-manila
 - available storage is sufficient;
 - project name is standardized.
 
+### Completion Evidence
+
+- confirmed directory: `D:\ALL PROJECTS - 20260725\gianetto-manila`.
+
 ---
 
 ## TASK-024 — Confirm Development Prerequisites
 
 **Phase:** Repository Initialization  
-**Status:** BACKLOG  
+**Status:** DONE  
 **Priority:** CRITICAL  
 **Dependencies:** TASK-023  
 
@@ -862,12 +877,22 @@ GitHub account
 - Git identity is configured;
 - no paid tool is required.
 
+### Completion Evidence
+
+- Node.js and npm were available;
+- Git was available;
+- Cursor or VS Code was available;
+- a GitHub account was available;
+- local development commands executed successfully during foundation setup.
+
+Supabase account setup is not yet confirmed as configured for this project.
+
 ---
 
 ## TASK-025 — Initialize Next.js Application
 
 **Phase:** Repository Initialization  
-**Status:** BACKLOG  
+**Status:** DONE  
 **Priority:** CRITICAL  
 **Dependencies:** TASK-024  
 
@@ -912,12 +937,20 @@ approved import alias
 - production build passes;
 - generated page remains minimal.
 
+### Completion Evidence
+
+- Next.js App Router foundation created with TypeScript, Tailwind CSS, and ESLint enabled;
+- `src` directory used with the `@/*` import alias configured;
+- the application served successfully locally;
+- a minimal, clearly provisional foundation page was created at `src/app/page.tsx`;
+- no Supabase, authentication, shadcn/ui, database, or restaurant feature code was added.
+
 ---
 
 ## TASK-026 — Initialize Git Repository
 
 **Phase:** Repository Initialization  
-**Status:** BACKLOG  
+**Status:** DONE  
 **Priority:** CRITICAL  
 **Dependencies:** TASK-025  
 
@@ -929,12 +962,21 @@ approved import alias
 - first clean commit created;
 - default branch is confirmed.
 
+### Completion Evidence
+
+- Git initialized in the authoritative project root;
+- `main` branch created;
+- `.gitignore` reviewed and generated directories excluded;
+- initial commit created: `837ea76 chore: initialize Gianetto project repository`;
+- GitHub origin configured: `https://github.com/jusbreakindacycle/gianetto-manila.git`;
+- `main` pushed successfully.
+
 ---
 
 ## TASK-027 — Add Foundation Documentation to Repository
 
 **Phase:** Repository Initialization  
-**Status:** BACKLOG  
+**Status:** DONE  
 **Priority:** CRITICAL  
 **Dependencies:** TASK-025, TASK-020, TASK-021, TASK-022  
 
@@ -948,6 +990,44 @@ Store the approved project documents under `docs/`.
 - markdown renders correctly;
 - no confidential credentials are included;
 - documents are committed.
+
+### Completion Evidence
+
+- all eleven approved Markdown documents are present under `docs/`;
+- documentation was included in the initial commit;
+- no credentials were added to the documentation pack.
+
+---
+
+## TASK-027R — Reconcile Repository Initialization Status
+
+**Phase:** Repository Initialization  
+**Status:** DONE  
+**Priority:** HIGH  
+**Dependencies:** TASK-020 through TASK-027  
+
+### Objective
+
+Reconcile the repository README and task tracker with the actual completed initialization state.
+
+### Allowed Scope
+
+- `README.md`
+- `docs/TASKS.md`
+
+### Acceptance Criteria
+
+- initialization task statuses match the repository;
+- README describes the actual Gianetto project;
+- no application source is modified;
+- Git validation passes.
+
+### Completion Evidence
+
+- `README.md` replaced with a Gianetto-specific repository README reflecting the actual foundation state;
+- `docs/TASKS.md` current-status section and TASK-020 through TASK-027 updated to `DONE` with completion evidence recorded;
+- no files outside `README.md` and `docs/TASKS.md` were modified;
+- lint, `tsc --noEmit`, and `git diff --check` passed before commit.
 
 ---
 

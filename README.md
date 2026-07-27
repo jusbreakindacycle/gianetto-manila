@@ -1,36 +1,163 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Gianetto Official Restaurant Website
 
-## Getting Started
+## 1. Project Title
 
-First, run the development server:
+**Gianetto Official Restaurant Website** — repository `gianetto-manila`.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## 2. Current Project Status
+
+This project is in **foundation and early implementation**.
+
+```text
+Phase 0 — Business and Content Verification
+Status: IN_PROGRESS
+
+Phase 1 — Project Documentation Foundation
+Status: DONE
+
+Phase 2 — Repository and Application Initialization
+Status: IN_PROGRESS
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The repository has been initialized, pushed to GitHub, and now contains a minimal Next.js foundation and the full project documentation pack. No restaurant features, database, or authentication have been implemented yet.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 3. Project Overview
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Gianetto is a Filipino-Italian restaurant. This repository will become the official website: a public customer-facing site plus a protected staff administration portal, built as a single server-first Next.js application connected to Supabase.
 
-## Learn More
+Operational restaurant content (branches, menu, hours, contact details, events) still requires verification and approval by Gianetto management before it can be published. See [docs/PROJECT.md](docs/PROJECT.md) for full project scope.
 
-To learn more about Next.js, take a look at the following resources:
+## 4. Approved Technology Stack
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```text
+Next.js App Router
+TypeScript
+Tailwind CSS
+ESLint
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Approved but **not yet implemented**:
 
-## Deploy on Vercel
+```text
+shadcn/ui
+Supabase PostgreSQL
+Supabase Auth
+Supabase Storage
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) and [docs/DECISIONS.md](docs/DECISIONS.md) for the full approved architecture and technology decisions.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 5. Current Implementation
+
+- Next.js App Router project initialized with TypeScript, Tailwind CSS, and ESLint.
+- `src` directory layout with the `@/*` import alias configured.
+- A minimal, clearly provisional foundation page at `src/app/page.tsx`.
+- Full project documentation pack committed under `docs/`.
+- No Supabase integration, authentication, database, or restaurant features exist yet.
+
+The current homepage is a temporary technical placeholder, not the final Gianetto design.
+
+## 6. Planned Public Features
+
+The following are planned for the public website and are **not yet implemented**:
+
+- structured menu with categories and branch-specific availability;
+- branch directory and branch detail pages;
+- live music and events listing;
+- reservation inquiry submission;
+- private-event inquiry submission;
+- gallery of approved restaurant photos;
+- promotions display;
+- our story, contact, privacy, and terms pages.
+
+## 7. Planned Administration Features
+
+The following are planned for the protected staff portal and are **not yet implemented**:
+
+- staff authentication and role-based access;
+- menu and branch management;
+- live music and event management;
+- reservation and private-event inquiry management;
+- media, gallery, and promotion management;
+- audit logging of administrative actions.
+
+## 8. Repository Structure
+
+```text
+gianetto-manila/
+├── docs/
+├── src/
+│   └── app/
+├── public/
+├── package.json
+├── package-lock.json
+├── next.config.ts
+├── tsconfig.json
+├── eslint.config.mjs
+└── postcss.config.mjs
+```
+
+`public/` currently exists but is empty; no brand assets or images have been added yet.
+
+## 9. Local Development
+
+```bash
+npm install
+npm run dev
+```
+
+The foundation page is served from [src/app/page.tsx](src/app/page.tsx).
+
+## 10. Available npm Commands
+
+```bash
+npm run dev     # start the local development server
+npm run build   # create a production build
+npm run start   # run the production build locally
+npm run lint    # run ESLint
+```
+
+A `type-check` script has not been added yet.
+
+## 11. Environment Configuration Status
+
+No environment variables or `.env` files exist in this repository yet. Supabase has not been configured, and no credentials of any kind should be committed to this repository.
+
+## 12. Documentation Index
+
+- [docs/PROJECT.md](docs/PROJECT.md) — project definition and scope
+- [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) — system architecture
+- [docs/ROADMAP.md](docs/ROADMAP.md) — implementation roadmap
+- [docs/DATA-MODEL.md](docs/DATA-MODEL.md) — conceptual data model
+- [docs/DESIGN-SYSTEM.md](docs/DESIGN-SYSTEM.md) — design direction
+- [docs/CONTENT-INVENTORY.md](docs/CONTENT-INVENTORY.md) — known and verified content
+- [docs/SECURITY.md](docs/SECURITY.md) — security and privacy requirements
+- [docs/AGENT-RULES.md](docs/AGENT-RULES.md) — AI agent operating rules
+- [docs/TASKS.md](docs/TASKS.md) — task backlog and delivery tracker
+- [docs/DECISIONS.md](docs/DECISIONS.md) — architecture and scope decision register
+- [docs/OWNER-VERIFICATION-FORM.md](docs/OWNER-VERIFICATION-FORM.md) — owner content-verification form
+
+## 13. Content-Verification Rule
+
+All public-facing operational information — branches, addresses, hours, contact numbers, menu items, prices, reservation and private-event procedures, and live music schedules — must be verified and approved by Gianetto management before production publication. Unverified information may only be used as clearly marked temporary development content.
+
+## 14. Security Rule
+
+This repository must never contain live credentials, API keys, or secrets. Authentication, authorization, Row Level Security, and input validation requirements are defined in [docs/SECURITY.md](docs/SECURITY.md) and must not be weakened to complete a feature.
+
+## 15. Media and Copyright Rule
+
+Third-party screenshots, editorial photographs, social-media screenshots, customer images, and performer materials must not be treated as production media without confirmed ownership, licence, or permission. See [docs/PROJECT.md](docs/PROJECT.md) section 17 and [docs/SECURITY.md](docs/SECURITY.md) for the full media and copyright policy.
+
+## 16. Current Limitations
+
+- No Supabase integration, database tables, or staff authentication exist.
+- No admin portal exists.
+- No reservation or private-event submission exists.
+- No dynamic menu or dynamic events exist.
+- No production deployment exists.
+- Active branches, menu, hours, and other operational content remain unverified.
+
+## 17. Repository Ownership and Licence Status
+
+No open-source licence has currently been granted for this repository. Production ownership arrangements are described in [docs/PROJECT.md](docs/PROJECT.md).
