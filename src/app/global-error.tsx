@@ -1,5 +1,7 @@
 "use client"
 
+import Link from "next/link"
+
 import { cormorantGaramond, manrope } from "@/lib/fonts"
 import "./globals.css"
 
@@ -41,12 +43,12 @@ export default function GlobalError({
             >
               Try again
             </button>
-            <a
+            <Link
               href="/"
               className="inline-flex h-11 items-center justify-center rounded-2xl border border-border bg-secondary px-5 text-sm font-medium text-secondary-foreground transition-all hover:bg-gianetto-soft-border/50 focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/30"
             >
               Return to homepage
-            </a>
+            </Link>
           </div>
         </div>
       </body>
