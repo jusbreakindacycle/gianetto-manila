@@ -2227,34 +2227,30 @@ Each review should answer:
 Current progress:
 
 ```text
-Phase 0
-Business and content verification
+Phase 0 — Business and content verification
 Status: IN_PROGRESS
 
-Phase 1
-Project documentation foundation
-Status: IN_PROGRESS
+Phase 1 — Project documentation foundation
+Status: DONE
+
+Phase 2 — Repository and application initialization
+Status: DONE
+
+Phase 3 — Design system and wireframes
+Status: DONE
+
+Phase 4 — Static public website (Version 0.2)
+Status: REVIEW (static prototype complete; pending JL's local visual
+review before Phase 4 is marked fully DONE, per the demo-first review
+sequence in Section 55 of AGENT-RULES.md and ADR-083)
 ```
 
-Completed foundation documents:
+All eleven foundation documents (`docs/`) are complete. All Phase 4
+static-prototype tasks (TASK-043 through TASK-074) are recorded DONE in
+`docs/TASKS.md`, including the tasks completed through a documented
+Safe Temporary or Development Option. No Phase 0 verification task has
+been closed by this work — TASK-001 through TASK-011 remain BLOCKED or
+READY pending owner input, and production content/publication still
+requires Gianetto owner approval.
 
-```text
-01 — PROJECT.md
-02 — ARCHITECTURE.md
-03 — ROADMAP.md
-```
-
-Remaining foundation documents:
-
-```text
-04 — DATA-MODEL.md
-05 — DESIGN-SYSTEM.md
-06 — CONTENT-INVENTORY.md
-07 — SECURITY.md
-08 — AGENT-RULES.md
-09 — TASKS.md
-10 — DECISIONS.md
-11 — OWNER-VERIFICATION-FORM.md
-```
-
-No coding should begin until the initialization pack is sufficiently complete.
+Phase 5 (Supabase Foundation) has not begun.

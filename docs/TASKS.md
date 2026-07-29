@@ -218,8 +218,23 @@ Phase 1 — Project Documentation Foundation
 Status: DONE
 
 Phase 2 — Repository and Application Initialization
-Status: IN_PROGRESS
+Status: DONE
+
+Phase 3 — Design System and Wireframes
+Status: DONE
+
+Phase 4 — Static Public Website
+Status: REVIEW (pending JL's local visual review of the demo)
 ```
+
+Phase 4 note: every TASK-043–TASK-074 static-prototype implementation is
+recorded DONE in Section 10 below. Phase 4 is held at REVIEW rather than
+DONE because ROADMAP.md's demo-first review sequence (Section 55 of
+AGENT-RULES.md, ADR-083) requires JL to review the assembled local demo
+before the phase is considered fully closed. This does not reopen or
+close any Phase 0 task — TASK-001 through TASK-011 remain BLOCKED/READY
+as recorded in Section 6, and production content still requires owner
+verification.
 
 Completed foundation documents:
 
@@ -2145,7 +2160,7 @@ related page-assembly tasks) and was not started in this batch.
 ## TASK-043 — Create Temporary Content Types
 
 **Phase:** Static Public Website  
-**Status:** BACKLOG  
+**Status:** DONE  
 **Priority:** HIGH  
 **Dependencies:** TASK-015, TASK-017  
 
@@ -2166,12 +2181,19 @@ ownershipStatus where relevant
 - no `any`;
 - optional fields reflect real uncertainty.
 
+### Completion Evidence
+
+- **Files:** `src/types/temporary-content.ts`.
+- **Component type:** n/a (type definitions only).
+- **Data/verification:** defines the `TemporaryContent*VerificationStatus`/`OwnershipStatus` unions plus `TemporaryBranch`, `TemporaryMenuCategory`, `TemporaryMenuItem`, `TemporaryEvent`, `TemporaryGalleryItem` — all names prefixed `Temporary` so they cannot be mistaken for generated Supabase types. No `any` used; optional/nullable fields (e.g. `addressLine`, `price`, `endTime`) represent real unresolved facts.
+- **Validation:** `npm run type-check` and `npm run build` pass (see Section 5 final validation).
+
 ---
 
 ## TASK-044 — Create Temporary Branch Data
 
 **Phase:** Static Public Website  
-**Status:** BACKLOG  
+**Status:** DONE  
 **Priority:** HIGH  
 **Dependencies:** TASK-043  
 
@@ -2182,12 +2204,20 @@ ownershipStatus where relevant
 - missing values remain null or provisional;
 - no invented map links or hours.
 
+### Completion Evidence
+
+- **Files:** `src/data/branches.ts`.
+- **Component type:** n/a (plain data module, no Supabase).
+- **Data/verification:** Parqal and Capitol Commons included with `verificationStatus: "OBSERVED"` per ADR-026; `addressLine`, `contactPhone`, `mapUrl`, and `operatingHoursSummary` are all `null` (nothing invented). Little Baguio is omitted entirely from active data per ADR-027 and CONTENT-INVENTORY.md Section 7.3.
+- **Validation:** `npm run type-check` and `npm run build` pass; `getActiveBranchSlugs()` confirmed to drive `generateStaticParams` for exactly `parqal` and `capitol-commons`.
+- **Production dependency:** replacing OBSERVED data with owner-VERIFIED branch facts remains blocked on TASK-002/TASK-003 (Phase 0).
+
 ---
 
 ## TASK-045 — Create Branch Card
 
 **Phase:** Static Public Website  
-**Status:** BACKLOG  
+**Status:** DONE  
 **Priority:** HIGH  
 **Dependencies:** TASK-036, TASK-037, TASK-044  
 
@@ -2201,12 +2231,20 @@ ownershipStatus where relevant
 - no Supabase query;
 - mobile and desktop tested.
 
+### Completion Evidence
+
+- **Files:** `src/components/public/branch-card.tsx`.
+- **Component type:** Server Component (no `"use client"`, no interactivity beyond plain links/buttons).
+- **Data/verification:** accepts a typed `TemporaryBranch` prop; renders `PlaceholderVisual` when no image exists, omits phone/map actions entirely rather than showing dead links, and never computes "Open now".
+- **Responsive/accessibility:** single-column card that reflows in the 1/2-column grids used on `/branches` and the homepage; both actions are real `<Link>`-backed buttons at the 44px touch-target size.
+- **Validation:** `npm run type-check`, `npm run lint`, and `npm run build` pass.
+
 ---
 
 ## TASK-046 — Create Branch Listing Page
 
 **Phase:** Static Public Website  
-**Status:** BACKLOG  
+**Status:** DONE  
 **Priority:** HIGH  
 **Dependencies:** TASK-039, TASK-041, TASK-045  
 
@@ -2218,12 +2256,20 @@ ownershipStatus where relevant
 - responsive layout;
 - metadata marked provisional.
 
+### Completion Evidence
+
+- **Files:** `src/app/branches/page.tsx`.
+- **Component type:** Server Component; `SiteHeader`/`SiteFooter` supplied by the root layout, not duplicated.
+- **Data/verification:** renders `getActiveBranches()` (Parqal, Capitol Commons only) via `BranchCard`; page copy states branch details are pending owner verification.
+- **Responsive/accessibility:** 1-column mobile / 2-column desktop grid via `PageContainer`; single `h1` via `SectionHeading`.
+- **Validation:** `npm run type-check`, `npm run lint`, `npm run build` pass; `/branches` confirmed in the static route list.
+
 ---
 
 ## TASK-047 — Create Branch Detail Template
 
 **Phase:** Static Public Website  
-**Status:** BACKLOG  
+**Status:** DONE  
 **Priority:** HIGH  
 **Dependencies:** TASK-045  
 
@@ -2247,12 +2293,20 @@ Reservation CTA
 - no false “Open now” calculation;
 - branch template is reusable.
 
+### Completion Evidence
+
+- **Files:** `src/components/public/branch-detail-template.tsx`, `src/app/branches/[slug]/page.tsx`.
+- **Component type:** Server Components throughout; `generateStaticParams` built from `getActiveBranchSlugs()`, async `params` (Next.js 16 `Promise<{ slug }>` convention) resolved via `await params`, `notFound()` called for any other slug.
+- **Data/verification:** all nine required sections present (overview, address, contact, hours, directions, featured dishes, upcoming events, gallery, private events, reservation CTA); featured dishes/events are derived from `src/data/menu.ts` / `src/data/events.ts` filtered by branch slug, not duplicated; every missing fact renders "Pending owner verification" text instead of a fake value or dead link; "Open now" is never computed.
+- **Responsive/accessibility:** single reading-width column, real heading hierarchy (`h1` branch name, `h2` per section).
+- **Validation:** production build confirms `/branches/parqal` and `/branches/capitol-commons` prerender via SSG; unknown slugs verified to hit `notFound()`.
+
 ---
 
 ## TASK-048 — Create Temporary Menu Data
 
 **Phase:** Static Public Website  
-**Status:** BLOCKED  
+**Status:** DONE  
 **Priority:** HIGH  
 **Dependencies:** TASK-005, TASK-043  
 
@@ -2264,12 +2318,20 @@ Current menu source has not been provided.
 
 Use neutral sample entries that do not mimic confirmed current menu content.
 
+### Completion Evidence
+
+- **Files:** `src/data/menu.ts`.
+- **Component type:** n/a (plain data module, no Supabase).
+- **Data/verification:** implements the Safe Temporary Option — six neutral "Sample ..." categories and ten neutral "Sample ..." items, every `price: null`, every `verificationStatus: "PROVISIONAL"`; descriptions are generic and explicitly demonstrative, not copied from any supplied menu material.
+- **Validation:** `npm run type-check` and `npm run build` pass.
+- **Production dependency:** static-prototype implementation is complete; replacing this with Gianetto's actual current menu remains blocked on **TASK-005** (Phase 0 — current menu not yet supplied). This task is recorded DONE for the Phase 4 static-prototype deliverable only; it does not close TASK-005.
+
 ---
 
 ## TASK-049 — Create Menu Item Card
 
 **Phase:** Static Public Website  
-**Status:** BACKLOG  
+**Status:** DONE  
 **Priority:** HIGH  
 **Dependencies:** TASK-034, TASK-035, TASK-043  
 
@@ -2283,12 +2345,20 @@ Use neutral sample entries that do not mimic confirmed current menu content.
 - text-forward design;
 - no database query.
 
+### Completion Evidence
+
+- **Files:** `src/components/public/menu-item-card.tsx`.
+- **Component type:** Server Component.
+- **Data/verification:** typed `TemporaryMenuItem` prop; optional `showVisual` renders `PlaceholderVisual` only when explicitly requested (menu page omits it, featured-dishes section enables it), so the card demonstrably works with and without an image; price renders "Price to be confirmed" whenever `price` is `null` (always, in Phase 4 data) rather than inventing a number; `StatusBadge status="unavailable"` used only when `availabilityLabel === "Temporarily unavailable"`.
+- **Responsive/accessibility:** text-forward flex layout, no image dependency for readability.
+- **Validation:** `npm run type-check`, `npm run lint`, `npm run build` pass.
+
 ---
 
 ## TASK-050 — Create Menu Category Navigation
 
 **Phase:** Static Public Website  
-**Status:** BACKLOG  
+**Status:** DONE  
 **Priority:** HIGH  
 **Dependencies:** TASK-043  
 
@@ -2300,12 +2370,20 @@ Use neutral sample entries that do not mimic confirmed current menu content.
 - does not use an overcrowded tab bar;
 - uses approved tokens.
 
+### Completion Evidence
+
+- **Files:** `src/components/public/menu-category-nav.tsx`.
+- **Component type:** Server Component — plain `<nav>`/`<a href="#slug">` anchor navigation, not a client-side tab widget, so it needs no `"use client"`.
+- **Data/verification:** links to each category's stable `id` (the category `slug`) on the menu page; scales to any category count via horizontal scroll on mobile and wrapping on larger screens instead of an overcrowded tab bar.
+- **Responsive/accessibility:** real focusable links with visible focus rings; horizontally scrollable on narrow viewports, `flex-wrap` from `sm:` up.
+- **Validation:** `npm run type-check`, `npm run lint`, `npm run build` pass.
+
 ---
 
 ## TASK-051 — Create Static Menu Page
 
 **Phase:** Static Public Website  
-**Status:** BLOCKED  
+**Status:** DONE  
 **Priority:** HIGH  
 **Dependencies:** TASK-048, TASK-049, TASK-050  
 
@@ -2313,12 +2391,21 @@ Use neutral sample entries that do not mimic confirmed current menu content.
 
 Current menu or approved sample menu is needed.
 
+### Completion Evidence
+
+- **Files:** `src/app/menu/page.tsx`.
+- **Component type:** Server Component.
+- **Data/verification:** built on the approved sample menu from TASK-048 (`src/data/menu.ts`); page prominently states the entries are design samples, "not Gianetto's confirmed current menu"; no PDF/screenshot menu; per-category empty state ("No menu items are currently available in this category.") implemented even though every current sample category has items.
+- **Responsive/accessibility:** `MenuCategoryNav` + anchor-sectioned categories, 1-column mobile / 2-column desktop item grid, `scroll-mt-24` so anchor jumps clear the sticky header.
+- **Validation:** `npm run type-check`, `npm run lint`, `npm run build` pass; `/menu` confirmed in the static route list.
+- **Production dependency:** static-prototype implementation is complete; replacing the sample menu with Gianetto's actual current menu remains blocked on **TASK-005** (Phase 0).
+
 ---
 
 ## TASK-052 — Create Temporary Event Data
 
 **Phase:** Static Public Website  
-**Status:** BACKLOG  
+**Status:** DONE  
 **Priority:** HIGH  
 **Dependencies:** TASK-043  
 
@@ -2329,12 +2416,19 @@ Current menu or approved sample menu is needed.
 - do not use real performer names without confirmation;
 - include draft, upcoming, and cancelled UI examples.
 
+### Completion Evidence
+
+- **Files:** `src/data/events.ts`.
+- **Component type:** n/a (plain data module, no Supabase).
+- **Data/verification:** four records, all `verificationStatus: "PROVISIONAL"`, titles containing "Sample"/"Demo"; covers DRAFT ("Sample Draft Event Night"), two UPCOMING, and one CANCELLED; performer name is fictional ("Sample Performer") and never a real person; every public accessor (`getPublicEvents`, `getUpcomingEvents`, `getEventBySlug`, `getPublicEventSlugs`) filters out `DRAFT` before returning, so the draft record is unreachable from any page.
+- **Validation:** `npm run type-check` and `npm run build` pass; production build confirmed only the three non-draft slugs are prerendered under `/events/[slug]`.
+
 ---
 
 ## TASK-053 — Create Event Card
 
 **Phase:** Static Public Website  
-**Status:** BACKLOG  
+**Status:** DONE  
 **Priority:** HIGH  
 **Dependencies:** TASK-037, TASK-042, TASK-052  
 
@@ -2347,12 +2441,20 @@ Current menu or approved sample menu is needed.
 - poster optional;
 - key schedule details rendered as HTML.
 
+### Completion Evidence
+
+- **Files:** `src/components/public/event-card.tsx`.
+- **Component type:** Server Component.
+- **Data/verification:** typed `TemporaryEvent` prop plus a `branchName` string resolved by the caller (no branch lookup duplicated inside the card); title, branch, date/time, and `StatusBadge` are always rendered as HTML text — never embedded only inside the `PlaceholderVisual` "poster"; performer and end time render conditionally when present; cancelled events get reduced emphasis plus their `cancellationNote`.
+- **Responsive/accessibility:** all schedule facts are real text nodes, satisfying "no critical text embedded only inside an image".
+- **Validation:** `npm run type-check`, `npm run lint`, `npm run build` pass.
+
 ---
 
 ## TASK-054 — Create Events Listing Page
 
 **Phase:** Static Public Website  
-**Status:** BACKLOG  
+**Status:** DONE  
 **Priority:** HIGH  
 **Dependencies:** TASK-053  
 
@@ -2364,12 +2466,20 @@ Current menu or approved sample menu is needed.
 - cancellation handling;
 - provisional content notice during development.
 
+### Completion Evidence
+
+- **Files:** `src/app/events/page.tsx`.
+- **Component type:** Server Component.
+- **Data/verification:** renders `getPublicEvents()` (drafts already excluded at the data layer) via `EventCard`, resolving branch name per event through `getBranchBySlug`; page copy states the listing is fictional and not a confirmed schedule; empty state implemented ("No upcoming live music dates are posted yet...") for when the filtered list is empty.
+- **Responsive/accessibility:** 1/2/3-column responsive grid.
+- **Validation:** `npm run type-check`, `npm run lint`, `npm run build` pass; `/events` confirmed in the static route list.
+
 ---
 
 ## TASK-055 — Create Event Detail Page
 
 **Phase:** Static Public Website  
-**Status:** BACKLOG  
+**Status:** DONE  
 **Priority:** HIGH  
 **Dependencies:** TASK-053  
 
@@ -2385,12 +2495,19 @@ Current menu or approved sample menu is needed.
 - cancellation notice;
 - not-found behavior.
 
+### Completion Evidence
+
+- **Files:** `src/app/events/[slug]/page.tsx`.
+- **Component type:** Server Component; `generateStaticParams` from `getPublicEventSlugs()`, async `params` (`Promise<{ slug }>`) awaited, `notFound()` for any slug `getEventBySlug` does not resolve (which includes the draft slug, since it is filtered out of that lookup too).
+- **Data/verification:** renders title, branch, formatted date/time (via `formatSampleEventDate`/`formatSampleEventTime`, no `Date`/timezone conversion), optional performer, description, a poster `PlaceholderVisual`, and cancellation notice when `status === "CANCELLED"`; explicitly states the sample event "is not a confirmed date" and cannot be booked through the demo.
+- **Validation:** production build confirms all three non-draft event slugs prerender via SSG.
+
 ---
 
 ## TASK-056 — Create Homepage Hero
 
 **Phase:** Static Public Website  
-**Status:** BACKLOG  
+**Status:** DONE  
 **Priority:** HIGH  
 **Dependencies:** TASK-034 to TASK-041  
 
@@ -2410,12 +2527,20 @@ Current menu or approved sample menu is needed.
 - mobile-first;
 - suitable without final photography.
 
+### Completion Evidence
+
+- **Files:** `src/components/home/hero.tsx`.
+- **Component type:** Server Component.
+- **Data/verification:** provisional headline/description copy, explicitly labelled "Working Preview"; decorative background is CSS-only radial gradients built from existing `--gianetto-*` tokens (no image file); Menu, Reserve a Table, and Branches actions all present as real links.
+- **Responsive/accessibility:** mobile-first stacked layout; `h1` here is the page's sole top-level heading.
+- **Validation:** `npm run type-check`, `npm run lint`, `npm run build` pass.
+
 ---
 
 ## TASK-057 — Create Restaurant Introduction Section
 
 **Phase:** Static Public Website  
-**Status:** BACKLOG  
+**Status:** DONE  
 **Priority:** MEDIUM  
 **Dependencies:** TASK-038  
 
@@ -2425,12 +2550,19 @@ Current menu or approved sample menu is needed.
 - layout works with short or long copy;
 - no invented founder story.
 
+### Completion Evidence
+
+- **Files:** `src/components/home/restaurant-introduction.tsx`.
+- **Component type:** Server Component.
+- **Data/verification:** original provisional-positioning copy only; explicitly states "the official Gianetto story will be finalized with the owner" — no founder, family, or history claim; uses `SectionHeading`, whose `description` prop already handles short or long copy without layout breakage.
+- **Validation:** `npm run type-check`, `npm run lint`, `npm run build` pass.
+
 ---
 
 ## TASK-058 — Create Featured Dishes Section
 
 **Phase:** Static Public Website  
-**Status:** BLOCKED  
+**Status:** DONE  
 **Priority:** MEDIUM  
 **Dependencies:** TASK-005, TASK-049  
 
@@ -2442,12 +2574,20 @@ Featured dishes and current menu are not confirmed.
 
 Use neutral sample dishes in development only.
 
+### Completion Evidence
+
+- **Files:** `src/components/home/featured-dishes.tsx`.
+- **Component type:** Server Component.
+- **Data/verification:** calls `getFeaturedMenuItems(4)` from the same `src/data/menu.ts` used by `/menu` — no duplicated dish array; renders each via `MenuItemCard` with `showVisual`; section copy states these are "design placeholders, not Gianetto's confirmed current dishes"; no price is shown (all sample prices are `null`).
+- **Validation:** `npm run type-check`, `npm run lint`, `npm run build` pass.
+- **Production dependency:** static-prototype implementation is complete; a real featured-dishes selection remains blocked on **TASK-005** (current menu, Phase 0), same as TASK-048/051.
+
 ---
 
 ## TASK-059 — Create Homepage Branch Section
 
 **Phase:** Static Public Website  
-**Status:** BACKLOG  
+**Status:** DONE  
 **Priority:** HIGH  
 **Dependencies:** TASK-045  
 
@@ -2458,12 +2598,19 @@ Use neutral sample dishes in development only.
 - responsive;
 - clear branch-selection action.
 
+### Completion Evidence
+
+- **Files:** `src/components/home/branch-section.tsx`.
+- **Component type:** Server Component.
+- **Data/verification:** calls `getActiveBranches()` and renders `BranchCard` directly — no branch-rendering logic duplicated from `/branches`; includes a "View all branches" action linking to `/branches`.
+- **Validation:** `npm run type-check`, `npm run lint`, `npm run build` pass.
+
 ---
 
 ## TASK-060 — Create Homepage Upcoming Events Section
 
 **Phase:** Static Public Website  
-**Status:** BACKLOG  
+**Status:** DONE  
 **Priority:** HIGH  
 **Dependencies:** TASK-053  
 
@@ -2474,12 +2621,19 @@ Use neutral sample dishes in development only.
 - supports cancelled status;
 - links to `/events`.
 
+### Completion Evidence
+
+- **Files:** `src/components/home/upcoming-events-section.tsx`.
+- **Component type:** Server Component.
+- **Data/verification:** renders `getPublicEvents().slice(0, 3)` (drafts already excluded at the data layer) via `EventCard`; because the slice is chronological rather than upcoming-only, the cancelled sample event is demonstrated in-place with its cancelled treatment rather than hidden; empty-state text implemented for when the slice is empty; "View all events" links to `/events`.
+- **Validation:** `npm run type-check`, `npm run lint`, `npm run build` pass.
+
 ---
 
 ## TASK-061 — Create Dining Experience Section
 
 **Phase:** Static Public Website  
-**Status:** BACKLOG  
+**Status:** DONE  
 **Priority:** MEDIUM  
 **Dependencies:** TASK-038  
 
@@ -2489,12 +2643,20 @@ Use neutral sample dishes in development only.
 - no unsupported live-music frequency claim;
 - authentic imagery requirement documented.
 
+### Completion Evidence
+
+- **Files:** `src/components/home/dining-experience.tsx`.
+- **Component type:** Server Component.
+- **Data/verification:** uses `PlaceholderVisual` (abstract CSS only); copy explicitly states "no live-music frequency or schedule is promised yet" and that authentic photography "will replace the placeholder shown here once approved by the owner".
+- **Responsive/accessibility:** dark-surface section styled directly (not via `SectionHeading`, whose default text tokens are tuned for light backgrounds) so text contrast stays correct against `--gianetto-dark-surface`.
+- **Validation:** `npm run type-check`, `npm run lint`, `npm run build` pass.
+
 ---
 
 ## TASK-062 — Create Private Events Section
 
 **Phase:** Static Public Website  
-**Status:** BACKLOG  
+**Status:** DONE  
 **Priority:** HIGH  
 **Dependencies:** TASK-038, TASK-037  
 
@@ -2505,12 +2667,19 @@ Use neutral sample dishes in development only.
 - uses provisional copy;
 - supports approved image later.
 
+### Completion Evidence
+
+- **Files:** `src/components/home/private-events-section.tsx`.
+- **Component type:** Server Component.
+- **Data/verification:** copy explicitly states packages, capacities, and pricing "are not yet confirmed"; links to `/private-events`; `PlaceholderVisual` used in place of a real private-event photo, swappable later without a layout change.
+- **Validation:** `npm run type-check`, `npm run lint`, `npm run build` pass.
+
 ---
 
 ## TASK-063 — Create Gallery Preview
 
 **Phase:** Static Public Website  
-**Status:** BLOCKED  
+**Status:** DONE  
 **Priority:** MEDIUM  
 **Dependencies:** TASK-010  
 
@@ -2522,12 +2691,20 @@ No production-cleared gallery images are available.
 
 Use local abstract placeholders with no restaurant claim.
 
+### Completion Evidence
+
+- **Files:** `src/components/home/gallery-preview.tsx`, `src/components/public/gallery-grid.tsx`, `src/data/gallery.ts`.
+- **Component type:** Server Components.
+- **Data/verification:** `getGalleryPreviewItems(6)` from the central `src/data/gallery.ts`, every record `ownershipStatus: "AI_GENERATED_PLACEHOLDER"` / `verificationStatus: "PROVISIONAL"`; rendered through the shared `GalleryGrid` using `PlaceholderVisual` (CSS gradient, no image file); no caption claims to show Gianetto.
+- **Validation:** `npm run type-check`, `npm run lint`, `npm run build` pass.
+- **Production dependency:** static-prototype implementation is complete; replacing placeholders with owner-cleared photography remains blocked on **TASK-010** (Phase 0 — no production-cleared gallery images yet).
+
 ---
 
 ## TASK-064 — Create Reservation CTA
 
 **Phase:** Static Public Website  
-**Status:** BACKLOG  
+**Status:** DONE  
 **Priority:** HIGH  
 **Dependencies:** TASK-037  
 
@@ -2537,12 +2714,19 @@ Use local abstract placeholders with no restaurant claim.
 - branch options may remain provisional;
 - no automatic confirmation claim.
 
+### Completion Evidence
+
+- **Files:** `src/components/home/reservation-cta.tsx`.
+- **Component type:** Server Component.
+- **Data/verification:** copy uses inquiry language only ("Send a reservation inquiry... Submitting this form does not automatically confirm a table"); links to `/reservations`.
+- **Validation:** `npm run type-check`, `npm run lint`, `npm run build` pass.
+
 ---
 
 ## TASK-065 — Assemble Static Homepage
 
 **Phase:** Static Public Website  
-**Status:** BACKLOG  
+**Status:** DONE  
 **Priority:** HIGH  
 **Dependencies:** TASK-056 to TASK-064  
 
@@ -2554,12 +2738,20 @@ Use local abstract placeholders with no restaurant claim.
 - no third-party content;
 - lint and build pass.
 
+### Completion Evidence
+
+- **Files:** `src/app/page.tsx` (replaces the temporary landing page), `src/app/globals.css` (removes the now-unused `.landing-*` block).
+- **Component type:** Server Component composing nine Server Component sections.
+- **Data/verification:** sections assembled in the approved order (Hero → Restaurant Introduction → Featured Dishes → Branch Selection → Upcoming Events → Dining Experience → Private Events → Gallery Preview → Reservation CTA); one `h1` (in `Hero`), all other section headings `h2`; every section reads from `src/data/*` with no duplicated arrays; no third-party content anywhere.
+- **Responsive/accessibility:** mobile-first throughout; consistent vertical rhythm via `PageContainer`/section padding; no arbitrary hex colors added.
+- **Validation:** `npm run type-check`, `npm run lint`, `npm run build` all pass — confirmed via the full Section 5 final validation run.
+
 ---
 
 ## TASK-066 — Create Reservation Form Interface
 
 **Phase:** Static Public Website  
-**Status:** BLOCKED  
+**Status:** DONE  
 **Priority:** HIGH  
 **Dependencies:** TASK-006, TASK-037  
 
@@ -2571,12 +2763,21 @@ Required reservation fields and business rules need owner approval.
 
 Build a provisional form only after fields are clearly marked subject to confirmation.
 
+### Completion Evidence
+
+- **Files:** `src/app/reservations/page.tsx` (Server), `src/components/forms/reservation-form.tsx` (Client), `src/components/forms/form-status-message.tsx`, `src/components/forms/field-mark.tsx`.
+- **Component type:** the page is a Server Component (fetches `getActiveBranches()`, passes as a prop); only the interactive form itself is a small Client Component, per the "smallest possible demo form interaction component" rule — no page-level `"use client"`.
+- **Data/verification:** conservative provisional field set only (name, email, mobile, preferred branch, date, time, party size, notes, privacy acknowledgement); no Zod, no React Hook Form, no Server Action, no route handler, no network request; `onSubmit` calls `preventDefault()` and reveals `FormStatusMessage` reading "This is a website-demo form. No inquiry was sent."; no fake success/confirmation state is ever shown.
+- **Responsive/accessibility:** every control has a real `<Label htmlFor>`, native HTML validation (`required`, `type="email"/"tel"/"date"/"time"/"number"`) instead of custom JS validation, 44px-height controls, visible focus rings, required/optional clearly marked (not color-only).
+- **Validation:** `npm run type-check`, `npm run lint`, `npm run build` pass.
+- **Production dependency:** static-prototype implementation is complete; final reservation fields and business rules remain blocked on **TASK-006** (Phase 0 — owner approval of reservation rules).
+
 ---
 
 ## TASK-067 — Create Private-Event Form Interface
 
 **Phase:** Static Public Website  
-**Status:** BLOCKED  
+**Status:** DONE  
 **Priority:** HIGH  
 **Dependencies:** TASK-007, TASK-037  
 
@@ -2584,12 +2785,21 @@ Build a provisional form only after fields are clearly marked subject to confirm
 
 Required inquiry details need owner confirmation.
 
+### Completion Evidence
+
+- **Files:** `src/app/private-events/page.tsx` (Server), `src/components/forms/private-event-form.tsx` (Client).
+- **Component type:** same Server-page/Client-form split as TASK-066.
+- **Data/verification:** conservative provisional field set (name, email, mobile, organization (optional), event type, preferred branch, date, time, estimated guest count, notes, privacy acknowledgement); event-type options are an explicitly labelled provisional working set ("subject to Gianetto's confirmation"); no guest limits, deposit rules, or capacities encoded anywhere; same demo-only submit behavior and status messaging as the reservation form.
+- **Responsive/accessibility:** same native-control accessibility approach as TASK-066.
+- **Validation:** `npm run type-check`, `npm run lint`, `npm run build` pass.
+- **Production dependency:** static-prototype implementation is complete; final private-event fields and policies remain blocked on **TASK-007** (Phase 0 — owner approval of private-event rules).
+
 ---
 
 ## TASK-068 — Create Our Story Page
 
 **Phase:** Static Public Website  
-**Status:** BLOCKED  
+**Status:** DONE  
 **Priority:** MEDIUM  
 **Dependencies:** TASK-011  
 
@@ -2597,21 +2807,37 @@ Required inquiry details need owner confirmation.
 
 No verified restaurant story.
 
+### Completion Evidence
+
+- **Files:** `src/app/our-story/page.tsx`.
+- **Component type:** Server Component.
+- **Data/verification:** complete page structure with provisional positioning copy only; explicitly states the official story "will be finalized with the owner" — no founding date, founder, family history, award, or timeline is asserted; links to `/menu` and `/branches`.
+- **Validation:** `npm run type-check`, `npm run lint`, `npm run build` pass.
+- **Production dependency:** static-prototype implementation is complete; the verified official story remains blocked on **TASK-011** (Phase 0).
+
 ---
 
 ## TASK-069 — Create Gallery Page
 
 **Phase:** Static Public Website  
-**Status:** BLOCKED  
+**Status:** DONE  
 **Priority:** MEDIUM  
 **Dependencies:** TASK-010, TASK-063  
+
+### Completion Evidence
+
+- **Files:** `src/app/gallery/page.tsx`, `src/components/public/gallery-grid.tsx` (shared with the homepage preview from TASK-063).
+- **Component type:** Server Component.
+- **Data/verification:** renders all of `getGalleryItems()` through `GalleryGrid`; controlled CSS grid (normal row flow, not masonry/`dense`) so mixed aspect ratios keep a predictable reading order; page copy states the tiles "are not photographs of Gianetto"; empty-state copy implemented for when the data set is empty.
+- **Validation:** `npm run type-check`, `npm run lint`, `npm run build` pass; `/gallery` confirmed in the static route list.
+- **Production dependency:** static-prototype implementation is complete; real gallery photography remains blocked on **TASK-010** (Phase 0), same as TASK-063.
 
 ---
 
 ## TASK-070 — Create Contact Page
 
 **Phase:** Static Public Website  
-**Status:** BLOCKED  
+**Status:** DONE  
 **Priority:** HIGH  
 **Dependencies:** TASK-003, TASK-004  
 
@@ -2619,12 +2845,20 @@ No verified restaurant story.
 
 Branch contacts, maps, and hours require final verification.
 
+### Completion Evidence
+
+- **Files:** `src/app/contact/page.tsx`.
+- **Component type:** Server Component.
+- **Data/verification:** renders `getActiveBranches()` inside `<address>` blocks distinguishing the two branches; phone/email/hours explicitly rendered as "Pending owner verification" text rather than any invented or unverified value; no `tel:`, `mailto:`, or map link anywhere on the page; navigation to branch details and both inquiry forms provided instead.
+- **Validation:** `npm run type-check`, `npm run lint`, `npm run build` pass; confirmed no `tel:`/`mailto:`/map URL exists anywhere in `src` (Section 5 final validation search).
+- **Production dependency:** static-prototype implementation is complete; real branch contact/hours/map data remains blocked on **TASK-003**/**TASK-004** (Phase 0).
+
 ---
 
 ## TASK-071 — Draft Privacy Page
 
 **Phase:** Static Public Website  
-**Status:** BACKLOG  
+**Status:** DONE  
 **Priority:** CRITICAL  
 **Dependencies:** TASK-006, TASK-007  
 
@@ -2642,12 +2876,20 @@ Branch contacts, maps, and hours require final verification.
 
 Business and legal review remain necessary before production.
 
+### Completion Evidence
+
+- **Files:** `src/app/privacy/page.tsx`.
+- **Component type:** Server Component.
+- **Data/verification:** labelled "Working Draft — Not Final" with an unset effective date; states plainly that the demo forms "do not currently collect, transmit, or store" any data; covers purpose, provisional data categories, intended staff-only access, security intent, unresolved third-party processors, unresolved retention, unresolved privacy-contact channel, and a to-be-defined customer-rights process; no legal business name, DPO, privacy email, retention duration, or claim of legal review is invented.
+- **Validation:** `npm run type-check`, `npm run lint`, `npm run build` pass.
+- **Production dependency:** this is a working draft only; legal review and owner approval remain outstanding before this can be a final policy.
+
 ---
 
 ## TASK-072 — Draft Terms and Website Notice
 
 **Phase:** Static Public Website  
-**Status:** BACKLOG  
+**Status:** DONE  
 **Priority:** HIGH  
 **Dependencies:** TASK-017  
 
@@ -2660,21 +2902,35 @@ Business and legal review remain necessary before production.
 - external links;
 - copyright notice.
 
+### Completion Evidence
+
+- **Files:** `src/app/terms/page.tsx`.
+- **Component type:** Server Component.
+- **Data/verification:** original, project-specific draft covering website-preview status, pending official identity, menu/price/event-schedule change notices, "inquiries are not confirmed reservations", external-link verification policy, copyright/media ownership, no online ordering/payments, and required owner review before production. Not copied from any other site's terms.
+- **Validation:** `npm run type-check`, `npm run lint`, `npm run build` pass.
+
 ---
 
 ## TASK-073 — Create Not-Found Page
 
 **Phase:** Static Public Website  
-**Status:** BACKLOG  
+**Status:** DONE  
 **Priority:** MEDIUM  
 **Dependencies:** TASK-034 to TASK-041  
+
+### Completion Evidence
+
+- **Files:** `src/app/not-found.tsx`.
+- **Component type:** Server Component (no `"use client"`).
+- **Data/verification:** consistent Gianetto design via `PageContainer`; `h1` heading, plain customer-facing copy, no technical detail; links to Home, Menu, and Branches.
+- **Validation:** `npm run type-check`, `npm run lint`, `npm run build` pass; `/_not-found` confirmed in the static route list.
 
 ---
 
 ## TASK-074 — Create Global Error Boundary
 
 **Phase:** Static Public Website  
-**Status:** BACKLOG  
+**Status:** DONE  
 **Priority:** HIGH  
 **Dependencies:** TASK-025  
 
@@ -2684,6 +2940,13 @@ Business and legal review remain necessary before production.
 - no stack trace;
 - route recovery action;
 - consistent design.
+
+### Completion Evidence
+
+- **Files:** `src/app/global-error.tsx`, `src/lib/fonts.ts` (new — extracted from `src/app/layout.tsx` so global-error can apply the same fonts without importing the root layout).
+- **Component type:** Client Component (`"use client"`, required by the Next.js 16 global-error convention); renders its own `<html>`/`<body>` and does not import `src/app/layout.tsx` or any Server Component tree.
+- **Data/verification:** never renders `error.message`, `error.digest`, a stack trace, or any filesystem path; shows only a safe "Something went wrong" message; provides a `reset()` "Try again" button and a `Link` "Return to homepage" as recovery controls; uses Gianetto tokens/fonts via `src/lib/fonts.ts` and `./globals.css` for on-brand, readable fallback typography.
+- **Validation:** `npm run type-check`, `npm run lint`, `npm run build` pass. No error is deliberately thrown to test this in committed code.
 
 ---
 
