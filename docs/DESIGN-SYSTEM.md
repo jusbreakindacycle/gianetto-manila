@@ -533,6 +533,13 @@ sm:px-6
 lg:px-8
 ```
 
+**Implementation note (TASK-036):** implemented as `PageContainer` in
+`src/components/layout/page-container.tsx` — a Server Component with a
+typed `size?: "standard" | "wide" | "reading" | "form"` prop (default
+`"standard"`) mapping to `max-w-6xl` / `max-w-[90rem]` / `max-w-3xl` /
+`max-w-2xl` respectively, always paired with `mx-auto w-full px-4
+sm:px-6 lg:px-8`.
+
 ## 12.2 Full-Bleed Sections
 
 Full-width sections may be used for:
@@ -923,6 +930,14 @@ The mobile menu should contain:
 - reservation action;
 - official contact or social links.
 
+**Implementation note (TASK-039/TASK-040):** implemented as `SiteHeader`
+(`src/components/layout/site-header.tsx`, Server Component) and
+`MobileNavigation` (`src/components/layout/mobile-navigation.tsx`, the
+only Client Component in this batch), sharing navigation data from
+`src/lib/public-navigation.ts`. Branch shortcuts and contact/social links
+are not yet included in the mobile menu — they remain unverified
+(TASK-002–TASK-009) and are deferred until owner-confirmed.
+
 ---
 
 # 22. Public Footer
@@ -949,6 +964,17 @@ Recommended statement:
 > This is the official website of Gianetto. Use the branch and contact information published here for verified restaurant inquiries.
 
 The statement must be reviewed by the owner.
+
+**Implementation note (TASK-041):** implemented as `SiteFooter` in
+`src/components/layout/site-footer.tsx`. Because branch addresses,
+phone numbers, and hours remain unverified (TASK-001–TASK-009 are still
+`BLOCKED`), the recommended statement above was not used as-is. The
+footer instead uses two provisional statements that stay accurate before
+owner verification: "This website is being prepared as Gianetto's
+official online home. Verified branch and contact information will be
+published before launch." and "Branch information is pending final
+owner verification." No logo image, branch details, or social links are
+included yet.
 
 ---
 
@@ -1017,6 +1043,16 @@ Minimum touch target:
 
 Buttons must not shrink below comfortable mobile interaction size.
 
+**Implementation note (TASK-037):** implemented in
+`src/components/ui/button.tsx` as `buttonVariants` (`cva`) with variants
+`primary` (default), `secondary`, `outline`, `ghost`, `destructive`, and
+sizes `default | xs | sm | lg` (all `h-11`/44px) plus
+`icon | icon-xs | icon-sm | icon-lg` (`icon` is 44px; the smaller
+`icon-xs`/`icon-sm` remain only for the pre-existing, out-of-scope Dialog
+close button). The `default`/`link` variants from the original shadcn/Rhea
+scaffold were removed as unused; `outline` and `ghost` are unchanged
+identifiers.
+
 ---
 
 # 24. Section Heading Component
@@ -1047,6 +1083,12 @@ Rules:
 - description remains readable;
 - action aligns consistently;
 - mobile stacking is supported.
+
+**Implementation note (TASK-038):** implemented as `SectionHeading` in
+`src/components/layout/section-heading.tsx` — a Server Component with
+`eyebrow?`, `title` (required), `description?`, `action?`,
+`headingLevel?: "h1" | "h2" | "h3" | "h4"` (default `"h2"`), and
+`align?: "left" | "center"` (default `"left"`).
 
 ---
 
@@ -1368,6 +1410,15 @@ Badges should use:
 - accessible contrast.
 
 Do not rely on red and green alone.
+
+**Implementation note (TASK-042):** implemented as `StatusBadge` in
+`src/components/shared/status-badge.tsx`, one shared implementation for
+public and future admin use. The typed `StatusBadgeStatus` union
+currently covers the six values required by TASK-042 (`upcoming`,
+`cancelled`, `draft`, `published`, `unavailable`, `confirmed`); the
+remaining statuses listed above (`Featured`, `Available`, `Completed`,
+`New`, `Contacted`, `Declined`, `Archived`) are deferred to the feature
+tasks that need them, per TASK-042's own scope limit.
 
 ---
 
@@ -1971,6 +2022,13 @@ PageHeader
 SectionHeading
 OfficialWebsiteNotice
 ```
+
+**Implementation status (TASK-036–TASK-041):** `SiteHeader`,
+`MobileNavigation`, `SiteFooter`, `PageContainer`, and `SectionHeading`
+are implemented (see the section-level implementation notes above).
+`SectionContainer`, `PageHeader`, and `OfficialWebsiteNotice` remain
+backlog. `StatusBadge` (Admin inventory, below) is implemented in
+`src/components/shared/status-badge.tsx` for shared public/admin use.
 
 ## Homepage
 

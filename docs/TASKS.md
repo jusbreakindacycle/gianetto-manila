@@ -1671,7 +1671,7 @@ external runtime font request was introduced). `package.json`,
 ## TASK-036 — Create Page Container
 
 **Phase:** Design System  
-**Status:** BACKLOG  
+**Status:** DONE  
 **Priority:** HIGH  
 **Dependencies:** TASK-034  
 
@@ -1687,12 +1687,35 @@ Create a reusable responsive content container.
 - typed props;
 - no unnecessary Client Component.
 
+### Completion Evidence
+
+- `src/components/layout/page-container.tsx` created as a Server Component
+  (no `"use client"`); exports `PageContainer` and the `PageContainerProps` /
+  `PageContainerSize` types;
+- typed API: `size?: "standard" | "wide" | "reading" | "form"` (default
+  `"standard"`), plus standard `ComponentProps<"div">` (`className`,
+  `children`, and all native `div` attributes);
+- approved widths implemented via a `PAGE_CONTAINER_SIZE_CLASSES` lookup
+  matching `DESIGN-SYSTEM.md` Section 12.1 exactly: `standard` → `max-w-6xl`
+  (72rem), `wide` → `max-w-[90rem]` (90rem — no built-in Tailwind class at
+  this width, so an arbitrary value was used since it exactly matches an
+  approved token rather than an invented one), `reading` → `max-w-3xl`
+  (48rem), `form` → `max-w-2xl` (42rem);
+- shared layout classes applied unconditionally: `mx-auto w-full px-4
+  sm:px-6 lg:px-8`;
+- `className` is merged after the base/size classes via `cn` (`clsx` +
+  `tailwind-merge`), so a caller can extend or intentionally override one
+  utility (e.g. supply their own `px-*`) without silently dropping the rest
+  of the required container behavior;
+- no context provider, hook, or polymorphic `as`/`render` prop was added —
+  the component is a single typed `div` wrapper only.
+
 ---
 
 ## TASK-037 — Customize Button Variants
 
 **Phase:** Design System  
-**Status:** BACKLOG  
+**Status:** DONE  
 **Priority:** HIGH  
 **Dependencies:** TASK-031, TASK-034  
 
@@ -1714,12 +1737,88 @@ destructive
 - Gianetto visual identity;
 - shared primitive behavior preserved.
 
+### Completion Evidence
+
+**Files modified:** `src/components/ui/button.tsx`, `src/components/ui/sheet.tsx`.
+
+**Variants** (`buttonVariants`, `cva`, unchanged `@base-ui/react/button`
+primitive and Base UI render composition preserved):
+
+- `primary` (default rendered appearance — `defaultVariants.variant` changed
+  from `"default"` to `"primary"`): `bg-primary text-primary-foreground`
+  (Gianetto red / white) with `hover:bg-gianetto-red-dark` and
+  `active:bg-gianetto-red-dark` for a visibly darker-red hover/active state;
+- `secondary`: `bg-secondary text-secondary-foreground` (cream surface,
+  charcoal text) plus an added `border border-border` (soft warm border,
+  previously missing) and a restrained
+  `hover:bg-gianetto-soft-border/50` / `active:bg-gianetto-soft-border/70`;
+- `outline`: `border border-gianetto-red/50 bg-transparent
+  text-gianetto-red`, with `hover:border-gianetto-red
+  hover:bg-gianetto-red-soft` for a clear hover state — chosen as a
+  red-accented bordered variant so it stays visually distinct from
+  `secondary` (cream/charcoal) and `ghost` (borderless);
+- `ghost`: unchanged transparent base with `hover:bg-muted
+  hover:text-foreground` (warm-neutral hover only), suited to navigation
+  links and low-emphasis actions;
+- `destructive`: unchanged token-driven tinted style
+  (`bg-destructive/10 text-destructive`, `hover:bg-destructive/20`, added
+  `active:bg-destructive/30`) — stays visually distinct from the solid
+  `primary` button;
+- every class references only `--gianetto-*`/semantic Tailwind theme
+  tokens already exposed in `globals.css` (`bg-primary`, `bg-secondary`,
+  `border-border`, `bg-muted`, `bg-destructive`, `bg-gianetto-red-dark`,
+  `border-gianetto-red`, `bg-gianetto-red-soft`,
+  `bg-gianetto-soft-border`); no hex literal was added.
+
+**Sizes** (44-pixel touch target, `DESIGN-SYSTEM.md` Section 23.5 /
+Section 42): every normal (non-icon) size — `default`, `xs`, `sm`, `lg` —
+now uses `h-11` (44px); visual hierarchy between sizes comes from
+padding, gap, and text size only, not height. The default icon size
+(`icon`) was bumped from `size-8` (32px) to `size-11` (44px); `icon-lg`
+was bumped from `size-9` to `size-12` (48px) to remain the tier above the
+default icon size.
+
+**Compatibility decision — `icon-xs` / `icon-sm` retained below 44px:**
+`icon-xs` (24px) and `icon-sm` (28px) were left unchanged. Repository-wide
+search (`grep -rn 'size="icon-sm"' src`) showed `icon-sm` is used only by
+the pre-existing, out-of-scope `src/components/ui/dialog.tsx` close
+button; changing its meaning would have silently altered Dialog's
+close-button size without Dialog being part of this task's allowed file
+scope. Instead, per the task instruction to "adjust the Sheet close-button
+size reference," `sheet.tsx`'s close button was moved from `size="icon-sm"`
+to `size="icon"` (now 44px) with the absolute position tightened from
+`top-4 right-4` to `top-3 right-3` to keep it visually balanced at the
+larger size. Dialog's close button is untouched and remains at its
+existing (pre-task) 28px size, which is unchanged pre-existing behavior,
+not a regression introduced by this task.
+
+**Compatibility decision — removed `default` and `link` variants:**
+`variant="default"` was renamed to `variant="primary"` per the required
+public API (`defaultVariants.variant` updated to `"primary"` so the
+default rendered appearance is still primary). The unused `link` variant
+was removed. Repository-wide search
+(`grep -rn 'variant=' src --include=*.tsx` and a direct search for
+`variant="default"` / `variant="link"`) confirmed neither `default` nor
+`link` was referenced anywhere outside `button.tsx` itself before this
+change, and the only other `variant=` usages in the repository
+(`dialog.tsx`: `ghost`, `outline`) continue to resolve correctly, so
+removal does not break any generated UI primitive.
+
+**Preserved:** disabled styling (`disabled:pointer-events-none
+disabled:opacity-50`), `aria-invalid` ring/border styling, keyboard focus
+ring (`focus-visible:border-ring focus-visible:ring-3
+focus-visible:ring-ring/30`), the Base UI `render` composition API, icon
+sizing behavior (`[&_svg:not([class*='size-'])]:size-4` etc.), and the
+exported `buttonVariants` function (still exported alongside `Button`).
+
+No page-specific button variant was added.
+
 ---
 
 ## TASK-038 — Create Section Heading Component
 
 **Phase:** Design System  
-**Status:** BACKLOG  
+**Status:** DONE  
 **Priority:** MEDIUM  
 **Dependencies:** TASK-035, TASK-036  
 
@@ -1732,12 +1831,47 @@ destructive
 - mobile and desktop alignment;
 - semantic heading level is configurable.
 
+### Completion Evidence
+
+- `src/components/layout/section-heading.tsx` created as a Server
+  Component (no `"use client"` — an interactive `action` child does not
+  force the wrapping heading into a Client Component);
+- typed API: `eyebrow?: ReactNode`, `title: ReactNode`,
+  `description?: ReactNode`, `action?: ReactNode`,
+  `headingLevel?: "h1" | "h2" | "h3" | "h4"` (default `"h2"`),
+  `align?: "left" | "center"` (default `"left"`), `className?: string`;
+  exports `SectionHeading`, `SectionHeadingProps`, `SectionHeadingLevel`,
+  `SectionHeadingAlign`;
+- heading hierarchy is controlled entirely by the typed `headingLevel`
+  prop, assigned to a `const Heading = headingLevel` and rendered as
+  `<Heading>`; because the prop type is a closed 4-value union checked at
+  compile time (not a raw/untrusted string), this does not "generate
+  heading levels dynamically from untrusted strings" — it selects one of
+  four explicitly permitted tags;
+- title uses `font-heading` (Cormorant Garamond) with the
+  `text-section-title` / `md:text-section-title-desktop` semantic
+  typography tokens from TASK-035; description uses the readable
+  `text-body-large` body token with `text-muted-foreground`; the optional
+  eyebrow uses the compact `text-label` token with `tracking-[0.14em]
+  uppercase text-gianetto-red` for restrained emphasis (matching the
+  existing `.landing-eyebrow` treatment);
+- layout is `flex flex-col` (mobile stacking) by default, switching to
+  `sm:flex-row sm:items-end sm:justify-between` so the optional action
+  aligns to the right of the heading block on wider viewports; when
+  `align="center"`, the layout stays a centered column
+  (`sm:flex-col sm:items-center`) instead of moving the action beside the
+  heading;
+- `eyebrow`, `description`, and `action` render only when supplied
+  (conditional `&&`), so missing optional content produces no empty
+  wrapper elements; `title` uses `max-w-prose`-free flexible text so long
+  titles wrap normally inside the flex layout.
+
 ---
 
 ## TASK-039 — Create Responsive Public Header
 
 **Phase:** Design System  
-**Status:** BACKLOG  
+**Status:** DONE  
 **Priority:** HIGH  
 **Dependencies:** TASK-035, TASK-037  
 
@@ -1757,12 +1891,44 @@ destructive
 - no unsupported branch claim;
 - no oversized client boundary.
 
+### Completion Evidence
+
+(See combined TASK-039/TASK-040 implementation notes below TASK-040 —
+`src/components/layout/site-header.tsx` and
+`src/lib/public-navigation.ts`.)
+
+- `src/components/layout/site-header.tsx` created as a Server Component
+  (no `"use client"`) exporting `SiteHeader`;
+- uses semantic `<header>`, `PageContainer` (default `standard` size),
+  `next/link` `Link` for the wordmark and desktop nav, the shared
+  navigation data from `src/lib/public-navigation.ts`, `Button` for the
+  reservation action, and imports `MobileNavigation` as the only Client
+  Component in the tree;
+- desktop (`lg:` and above): text wordmark, full inline navigation
+  (`PUBLIC_NAVIGATION_ITEMS`), and a primary `Button` reservation action
+  rendered via Button's `render` composition API
+  (`<Button render={<Link href="/reservations" />}>`), so the final DOM
+  is a single `<a>` styled as a button — not a button nested in a link;
+- below `lg:`: wordmark, a compact `size="sm"` reservation button shown
+  from `sm:` upward and hidden below it (`hidden sm:inline-flex`) so it
+  never crowds the smallest phone widths, and the `MobileNavigation`
+  trigger;
+- the wordmark is plain text ("Gianetto") in `font-heading`, colored
+  `text-gianetto-red`, links to `/`, and has a code comment stating it is
+  a provisional text wordmark, not the recovered or official logo;
+- `usePathname` / active-link styling was not added; the header does not
+  use any client hook; transparent-over-hero and sticky behavior were not
+  implemented (explicitly deferred per task scope);
+- all interactive text uses `focus-visible:ring-3 focus-visible:ring-ring/30`
+  for a visible keyboard-focus state; no interaction depends on hover
+  alone.
+
 ---
 
 ## TASK-040 — Create Mobile Navigation
 
 **Phase:** Design System  
-**Status:** BACKLOG  
+**Status:** DONE  
 **Priority:** HIGH  
 **Dependencies:** TASK-031, TASK-039  
 
@@ -1774,12 +1940,63 @@ destructive
 - supports keyboard operation;
 - includes reservation action.
 
+### Completion Evidence
+
+**Files created:** `src/components/layout/mobile-navigation.tsx`,
+`src/lib/public-navigation.ts`.
+
+- `mobile-navigation.tsx` is the only new Client Component
+  (`"use client"`), exporting `MobileNavigation`; it composes the existing
+  `Sheet` / `SheetTrigger` / `SheetContent` / `SheetHeader` / `SheetTitle` /
+  `SheetClose` / `SheetFooter` from `src/components/ui/sheet.tsx`
+  unmodified in structure — no Base UI Dialog focus-trap or portal logic
+  was replaced;
+- trigger: `<SheetTrigger render={<Button variant="ghost" size="icon" />}>`
+  with a visible `MenuIcon` (`aria-hidden`) and an `sr-only` "Open menu"
+  label — 44×44px after the TASK-037 `icon` size change;
+- panel: `SheetTitle` renders the visible text "Gianetto" as the menu
+  title; all six `PUBLIC_NAVIGATION_ITEMS` render as `<SheetClose
+  render={<Link href={item.href} .../>}>` — the Base UI `Close` primitive
+  clones its merged (close-on-activate) props onto the given `Link`
+  element, so each nav row is a single rendered `<a>`, not a link nested
+  inside another interactive control;
+- the reservation action is `<SheetClose render={<Button className="w-full"
+  render={<Link href="/reservations" />} />}>`, chaining Base UI's render
+  composition twice (`Close` → `Button` → `Link`) so Sheet-close behavior,
+  Button's visual styling, and Link navigation all resolve to one final
+  `<a>` element — verified against
+  `node_modules/@base-ui/react/internals/useRenderElement.js`, which
+  recursively clones/merges props through nested `render` elements rather
+  than wrapping them, so no nested interactive DOM elements are produced;
+- accessible close control: `SheetContent`'s existing default close button
+  (`showCloseButton`, unchanged) is reused, now 44×44px per the TASK-037
+  Sheet size change;
+- focus trap, focus return to the trigger on close, and Escape-to-close
+  are provided by the underlying unmodified Base UI `Dialog` primitive
+  used by `Sheet` — behavior relied upon, not reimplemented;
+- no external links, fabricated branch information, social links, theme
+  switcher, or authentication controls were added.
+
+**`src/lib/public-navigation.ts`** — single shared, immutable navigation
+source (`readonly` array/object types with `as const`) used by
+`SiteHeader`, `MobileNavigation`, and `SiteFooter`:
+
+```text
+PUBLIC_NAVIGATION_ITEMS: Menu (/menu), Branches (/branches),
+  Events (/events), Private Events (/private-events),
+  Our Story (/our-story), Contact (/contact)
+RESERVATION_NAVIGATION_ITEM: Reserve a Table (/reservations)
+```
+
+No branch-specific shortcuts, phone numbers, addresses, hours, or social
+links were added, per task instruction.
+
 ---
 
 ## TASK-041 — Create Public Footer
 
 **Phase:** Design System  
-**Status:** BACKLOG  
+**Status:** DONE  
 **Priority:** HIGH  
 **Dependencies:** TASK-035, TASK-036  
 
@@ -1798,12 +2015,50 @@ destructive
 - responsive;
 - accessible links.
 
+### Completion Evidence
+
+- `src/components/layout/site-footer.tsx` created as a Server Component
+  (no `"use client"`) exporting `SiteFooter`;
+- uses semantic `<footer>`, `PageContainer`, the shared
+  `PUBLIC_NAVIGATION_ITEMS` / `RESERVATION_NAVIGATION_ITEM` from
+  `src/lib/public-navigation.ts` (not duplicated), `next/link` `Link`, and
+  the approved dark surface token (`bg-gianetto-dark-surface`) with
+  `text-gianetto-warm-ivory` / `text-gianetto-white` foregrounds — the
+  same pairing reviewed at 16.50–17.27 contrast in TASK-034;
+- includes: provisional text wordmark ("Gianetto", same non-logo
+  treatment as the header), the full public navigation plus the
+  reservation link, `Privacy` → `/privacy`, `Website Terms` → `/terms`,
+  the current copyright year via `new Date().getFullYear()` (safe in a
+  Server Component; not a client-only API), and two provisional notices;
+- **content decision — deviates from `DESIGN-SYSTEM.md` Section 22's
+  illustrative footer copy on purpose:** Section 22 lists "approved
+  Gianetto logo," "branch addresses," "branch phone numbers," "operating
+  hours," and "social links" as example footer content, and its sample
+  official-site statement asserts verified branch/contact information is
+  already published. None of that is owner-verified yet
+  (`docs/CONTENT-INVENTORY.md`, TASK-001 through TASK-009 remain
+  `BLOCKED`), so per `AGENT-RULES.md` Section 4 (an explicit task
+  instruction and `DECISIONS.md` outrank `DESIGN-SYSTEM.md` illustrative
+  copy) and Section 17 (agents must not invent branch hours/contact
+  information), the footer instead uses exactly the two provisional
+  statements specified in this task's instructions:
+  - "This website is being prepared as Gianetto's official online home.
+    Verified branch and contact information will be published before
+    launch."
+  - "Branch information is pending final owner verification."
+  No branch names, addresses, phone numbers, hours, parking claims,
+  reservation guarantees, social links, or logo image were added;
+- responsive: single column on mobile, wordmark/notices beside navigation
+  on `sm:` and above; all links carry visible
+  `focus-visible:ring-3 focus-visible:ring-ring/40` focus states; no
+  footer item is forced into a card or pill.
+
 ---
 
 ## TASK-042 — Create Shared Status Badge
 
 **Phase:** Design System  
-**Status:** BACKLOG  
+**Status:** DONE  
 **Priority:** MEDIUM  
 **Dependencies:** TASK-034  
 
@@ -1821,6 +2076,67 @@ destructive
 - status is not communicated by color alone;
 - public and admin variants remain consistent;
 - typed allowed values.
+
+### Completion Evidence
+
+- `src/components/shared/status-badge.tsx` created as a Server Component
+  (no `"use client"`); exports `StatusBadge` and the `StatusBadgeStatus`
+  type;
+- `StatusBadgeStatus` is a closed 6-value union
+  (`"upcoming" | "cancelled" | "draft" | "published" | "unavailable" |
+  "confirmed"`); `StatusBadgeProps` extends
+  `Omit<ComponentProps<"span">, "children">` plus a required `status`
+  field, so callers get full standard `span` props (including
+  `className`, merged via `cn`) but cannot pass arbitrary string statuses
+  or override the rendered label with custom `children`;
+- one shared implementation is intended for both public and future admin
+  contexts (no separate public/admin variant);
+- visible human-readable label per status (`STATUS_BADGE_LABELS`):
+  `upcoming` → "Upcoming", `cancelled` → "Cancelled", `draft` → "Draft",
+  `published` → "Published", `unavailable` → "Temporarily unavailable",
+  `confirmed` → "Confirmed" — the label is the badge's only content, so
+  status is always communicated through visible text, never color alone;
+- each status pairs its label with a tinted `--gianetto-*`/semantic token
+  background and matching foreground (`STATUS_BADGE_STYLES`), e.g.
+  `unavailable` → `bg-gianetto-warning/10 text-gianetto-warning`,
+  `cancelled` → `bg-gianetto-cancelled/10 text-gianetto-cancelled`,
+  `draft` → `bg-muted text-muted-foreground`; no new hex color was
+  introduced;
+- restrained pill shape (`rounded-full`), compact spacing
+  (`px-2.5 py-1`), and compact label typography (`text-label
+  font-semibold`); no icon was added (none was judged to add meaning
+  beyond the text label, per the task's "only when it adds meaning"
+  condition);
+- no new Badge package or shadcn component was added; no status outside
+  the six required values was introduced.
+
+---
+
+## TASK-036–042 — Batch Validation and Integration Note
+
+**Validation performed once, after all seven components:** `npm run lint`
+(passed, no warnings), `npm run type-check` (`tsc --noEmit`, passed),
+`npm run build` (Turbopack production build, passed — static export of `/`
+and `/_not-found` unchanged), `git diff --check` (no whitespace errors),
+`git status --short` (only the allowed files changed: `button.tsx` and
+`sheet.tsx` modified; `src/components/layout/`, `src/components/shared/`,
+and `src/lib/public-navigation.ts` added).
+
+**Additional inspection:** every `"use client"` file under `src/components`
+was listed — only `mobile-navigation.tsx` (new) plus the pre-existing
+`dialog.tsx`, `label.tsx`, and `sheet.tsx` require client execution;
+repository-wide `Button` `variant=` usage and `Sheet` usage were reviewed
+(see TASK-037/TASK-040 notes above); no hex color literal was found in any
+created or modified component file; `package.json` and `package-lock.json`
+show no diff (no dependency changed); `src/app/page.tsx` and
+`src/app/layout.tsx` show no diff.
+
+**Integration status:** none of the seven components are imported or
+rendered by `src/app/page.tsx`, `src/app/layout.tsx`, or any route file.
+The temporary branded landing page from TASK-033A is unchanged. Wiring
+`SiteHeader` / `SiteFooter` into the root layout and assembling full pages
+is explicitly deferred to Phase 4 (TASK-046, TASK-051, TASK-065, and
+related page-assembly tasks) and was not started in this batch.
 
 ---
 
