@@ -451,6 +451,19 @@ Actual Tailwind classes should use the project token scale.
 
 Avoid using arbitrary font sizes inside isolated components.
 
+**Implementation note (TASK-035):** this scale is implemented as Tailwind
+v4 `--text-*` theme tokens in `src/app/globals.css` (`@theme inline`),
+exposed as utilities `text-display-hero`, `text-page-title`,
+`text-section-title`, `text-card-title`, `text-subheading`,
+`text-body-large`, `text-body`, `text-small`, and `text-label`, each with
+a `-desktop` companion token where the table lists separate mobile/desktop
+sizes (e.g. `text-section-title md:text-section-title-desktop`). Manrope
+and Cormorant Garamond load via `next/font/google` in
+`src/app/layout.tsx` as `--font-manrope` and
+`--font-cormorant-garamond`, mapped to the Tailwind `font-sans`/
+`font-body` and `font-heading`/`font-display`/`font-serif` utilities
+respectively.
+
 ---
 
 # 11. Typography Rules

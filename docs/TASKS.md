@@ -1530,7 +1530,7 @@ inspected but not modified.
 ## TASK-035 — Configure Typography
 
 **Phase:** Design System  
-**Status:** BACKLOG  
+**Status:** DONE  
 **Priority:** HIGH  
 **Dependencies:** TASK-034  
 
@@ -1548,6 +1548,123 @@ Manrope
 - no script-font replacement of the logo;
 - fallback fonts are configured;
 - layout shift is minimized.
+
+### Completion Evidence
+
+**Font loading (`src/app/layout.tsx`):** the previous `Geist`/`Geist_Mono`
+imports from `next/font/google` were replaced with `Manrope` and
+`Cormorant_Garamond` from the same built-in loader. Both are configured
+with:
+
+```text
+subsets: ["latin"]
+display: "swap"
+adjustFontFallback: true
+```
+
+Neither font specifies a `weight`, so `next/font` loads each font's
+variable-width axis (both fonts list `"variable"` in their available
+weights) instead of a fixed static weight — this is the "variable-font
+loading" and "automatic fallback adjustment" the task required, and both
+are Next.js defaults/capabilities of the installed version (Next.js
+16.2.10, Tailwind CSS 4.3.3). Generated CSS custom properties:
+
+```text
+--font-manrope
+--font-cormorant-garamond
+```
+
+Both variables are applied to the root `<html>` element alongside the
+preserved `lang="en"`, `h-full`, and `antialiased` attributes; `body`
+still carries `min-h-full`. `Metadata` and the body/document structure
+are otherwise unchanged.
+
+**Geist removal:** the `Geist` and `Geist_Mono` imports, both font
+instances, and the `--font-geist-mono` reference in `globals.css` were
+removed completely; no code still depends on them. The Tailwind
+`font-mono` role now resolves to a system monospace stack instead of a
+web font, since no admin or public UI currently requires a loaded
+monospace typeface.
+
+**Tailwind v4 font-family mappings (`src/app/globals.css`, `@theme
+inline`):** the previous recursive `--font-sans: var(--font-sans)` and
+`--font-heading: var(--font-sans)` mappings were replaced with:
+
+```text
+--font-sans     → var(--font-manrope), ui-sans-serif, system-ui,
+                  -apple-system, "Segoe UI", Arial, sans-serif
+--font-body     → same Manrope stack as --font-sans
+--font-heading  → var(--font-cormorant-garamond), Georgia,
+                  "Times New Roman", serif
+--font-display  → same Cormorant Garamond stack as --font-heading
+--font-serif    → same Cormorant Garamond stack as --font-heading
+--font-mono     → ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+                  "Liberation Mono", "Courier New", monospace
+```
+
+Fallback stacks are centralized in this block only (not duplicated in
+`next/font` config). No circular custom-property reference remains. This
+exposes the Tailwind utilities `font-sans`, `font-body`, `font-heading`,
+`font-display`, `font-serif`, and `font-mono`. The existing
+`html { @apply font-sans; }` rule in the `@layer base` block already
+makes Manrope the inherited application font; it was not changed, and no
+rule applies `font-heading`/`font-display` to heading elements globally,
+so Cormorant Garamond remains an explicit, component-level choice per
+`DESIGN-SYSTEM.md` Section 9.3.
+
+**Semantic typography scale (`@theme inline`, valid Tailwind v4 `--text-*`
+tokens, paired with `--text-*--line-height`):** added the roles from
+`DESIGN-SYSTEM.md` Section 10 — `display-hero`, `page-title`,
+`section-title`, `card-title`, `subheading`, `body-large`, `body`,
+`small`, and `label` — each with a `-desktop` companion token where the
+scale has separate mobile/desktop sizes (all except `body` and `small`,
+which are single-value per the documented scale). This exposes utilities
+such as `text-display-hero`, `text-section-title-desktop`, and
+`text-label`, usable as e.g. `text-section-title
+md:text-section-title-desktop`. Line heights follow the documented
+tiers: tight (1.15) for `display-hero`/`page-title`/`section-title`;
+moderately tight (1.35) for `card-title`/`subheading`; readable (1.6) for
+`body-large`/`body`/`small`; compact-but-accessible (1.4) for `label`. No
+letter-spacing or forced uppercase was added, and no existing Tailwind
+default type utility was removed.
+
+**Temporary landing page (`src/app/globals.css`, `.landing-heading`):**
+the hardcoded `font-family: Georgia, "Times New Roman", serif;` was
+replaced with `font-family: var(--font-heading);`, so the landing
+heading now resolves to Cormorant Garamond with the same serif fallback
+chain. No other `.landing-*` rule declares a `font-family`, so all other
+landing-page text already inherits Manrope through the base-layer
+`font-sans` rule. Font size (`clamp(2.5rem, 8vw, 4rem)`), line-height,
+color, spacing, layout, and all other `.landing-*` rules were left
+unchanged, since the existing clamp value is not an exact match for any
+semantic token and replacing it was not required to be safe.
+
+**Logo:** no cursive or brush-script font was introduced, Cormorant
+Garamond was not used to approximate the Gianetto wordmark, no logo asset
+was created or modified, and Logo Recovery was not started. Typography
+remains distinct from the logo per `DESIGN-SYSTEM.md` Section 9.3.
+
+**Files changed:**
+
+```text
+src/app/layout.tsx
+src/app/globals.css
+docs/TASKS.md
+```
+
+**Validation performed:** `npm run lint` (passed), `npm run type-check`
+(passed), `npm run build` (passed — Turbopack production build, static
+export of `/` and `/_not-found`, fonts resolved and self-hosted through
+`next/font` at build time), `git diff --check` (no whitespace errors),
+`git status --short` (only `src/app/globals.css` and `src/app/layout.tsx`
+plus this documentation change). Searched for remaining `Geist`/
+`--font-geist-*` references (none), remaining direct `font-family:`
+declarations in `globals.css` (only the corrected `.landing-heading`
+rule, now token-based), and `fonts.googleapis.com`/`fonts.gstatic.com`
+references in `src` (none — `next/font` self-hosts both fonts, so no
+external runtime font request was introduced). `package.json`,
+`package-lock.json`, `components.json`, `src/app/page.tsx`, and all
+`src/components/ui` files were inspected but not modified.
 
 ---
 
