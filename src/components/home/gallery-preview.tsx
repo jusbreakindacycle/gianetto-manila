@@ -3,18 +3,12 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { PageContainer } from "@/components/layout/page-container"
 import { SectionHeading } from "@/components/layout/section-heading"
-import { PlaceholderVisual } from "@/components/shared/placeholder-visual"
+import { GalleryGrid } from "@/components/public/gallery-grid"
 import { getGalleryPreviewItems } from "@/data/gallery"
-
-const ORIENTATION_ASPECT = {
-  LANDSCAPE: "3/2",
-  PORTRAIT: "4/5",
-  SQUARE: "1/1",
-} as const
 
 /**
  * Homepage gallery preview (TASK-063). Uses the central temporary
- * gallery data and CSS-only abstract placeholders — no downloaded or
+ * gallery data and the shared GalleryGrid — no downloaded or
  * generated image files, and no claim that any tile shows Gianetto.
  */
 function GalleryPreview() {
@@ -33,15 +27,11 @@ function GalleryPreview() {
             </Button>
           }
         />
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
-          {items.map((item) => (
-            <PlaceholderVisual
-              key={item.id}
-              aspect={ORIENTATION_ASPECT[item.orientation]}
-              label={item.caption}
-            />
-          ))}
-        </div>
+        <GalleryGrid
+          items={items}
+          columnsClassName="grid-cols-2 sm:grid-cols-3 lg:grid-cols-6"
+          showCaptions={false}
+        />
       </PageContainer>
     </section>
   )
