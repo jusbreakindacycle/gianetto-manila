@@ -301,6 +301,20 @@ These tokens must be reviewed for accessibility before final implementation.
 
 AI agents must use existing tokens instead of creating raw arbitrary colors throughout the codebase.
 
+### 7.1 Implementation Note (TASK-034)
+
+The implemented `src/app/globals.css` centralizes every raw hex value once,
+under `:root`, as `--gianetto-*` custom properties (e.g. `--gianetto-red`,
+`--gianetto-warm-ivory`, `--gianetto-dark-surface`). The semantic shadcn
+variables shown above (`--primary`, `--background`, `--muted`, etc.)
+reference those `--gianetto-*` properties instead of repeating hex values,
+and the same `--gianetto-*` properties are exposed through the Tailwind v4
+`@theme inline` block as `--color-gianetto-*` so components can also use
+token-based utility classes (`bg-gianetto-red`, `text-gianetto-charcoal`)
+directly. The existing shadcn/Rhea `--chart-1` … `--chart-5` and
+`--sidebar-*` variables were preserved and mapped only to colors from the
+approved palette rather than left as unrelated placeholder values.
+
 ---
 
 # 8. Color Usage Rules

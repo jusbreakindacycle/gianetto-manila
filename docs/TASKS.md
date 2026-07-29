@@ -1336,7 +1336,7 @@ Replace the technical development placeholder with a temporary branded Gianetto 
 ## TASK-034 — Implement Color Tokens
 
 **Phase:** Design System  
-**Status:** BACKLOG  
+**Status:** DONE  
 **Priority:** HIGH  
 **Dependencies:** TASK-025, TASK-030  
 
@@ -1356,6 +1356,174 @@ Implement the approved working palette.
 - no arbitrary component-level hex values;
 - contrast is reviewed;
 - temporary status is documented.
+
+### Completion Evidence
+
+- `src/app/globals.css` is the single centralized location for all color
+  values; the full approved palette is defined once, under `:root`, as
+  `--gianetto-*` custom properties, and every other rule in the file
+  references those variables instead of raw hex.
+
+**Palette implemented** (`--gianetto-*` custom properties under `:root`):
+
+```text
+Primary
+  --gianetto-red            #9E1B1B
+  --gianetto-red-dark       #751313
+  --gianetto-red-soft       #F4E5E2
+  --gianetto-warm-ivory     #FFF9F1
+  --gianetto-cream          #F5EBDD
+  --gianetto-charcoal       #25211F
+  --gianetto-warm-gray      #6F6762
+  --gianetto-soft-border    #DED3C8
+  --gianetto-white          #FFFFFF
+
+Supporting
+  --gianetto-olive          #66704A
+  --gianetto-olive-soft     #E8EBDC
+  --gianetto-brick          #A9523E
+  --gianetto-gold           #B88A44
+  --gianetto-dark-surface   #1E1A18
+
+Semantic
+  --gianetto-success        #2F6B45
+  --gianetto-warning        #9A6516
+  --gianetto-error          #B42318
+  --gianetto-information    #315A75
+  --gianetto-cancelled      #7A2E2E
+
+Additional documented semantic values
+  --gianetto-muted-surface     #F2EBE4
+  --gianetto-accent-foreground #354028
+```
+
+**Shadcn semantic mappings** (`:root`, all reference `--gianetto-*`, no new
+raw hex introduced):
+
+```text
+--background            --gianetto-warm-ivory
+--foreground             --gianetto-charcoal
+--card                   --gianetto-white
+--card-foreground        --gianetto-charcoal
+--popover                --gianetto-white
+--popover-foreground     --gianetto-charcoal
+--primary                --gianetto-red
+--primary-foreground     --gianetto-white
+--secondary              --gianetto-cream
+--secondary-foreground   --gianetto-charcoal
+--muted                  --gianetto-muted-surface
+--muted-foreground       --gianetto-warm-gray
+--accent                 --gianetto-olive-soft
+--accent-foreground      --gianetto-accent-foreground
+--destructive            --gianetto-error
+--destructive-foreground --gianetto-white
+--border                 --gianetto-soft-border
+--input                  --gianetto-soft-border
+--ring                   --gianetto-red
+```
+
+- additional existing shadcn/Rhea semantic variables required by the
+  installed components (`--chart-1..5`, `--sidebar`,
+  `--sidebar-foreground`, `--sidebar-primary`,
+  `--sidebar-primary-foreground`, `--sidebar-accent`,
+  `--sidebar-accent-foreground`, `--sidebar-border`, `--sidebar-ring`)
+  were preserved and remapped only to colors from the approved palette
+  (e.g. `--chart-1` → red, `--chart-2` → olive, `--chart-3` → gold,
+  `--chart-4` → brick, `--chart-5` → information); no arbitrary new color
+  was introduced;
+- `--radius` and the derived `--radius-sm` … `--radius-4xl` scale in the
+  `@theme inline` block were left unchanged;
+- `@import "tailwindcss"`, `@import "tw-animate-css"`,
+  `@import "shadcn/tailwind.css"`, and the `@custom-variant dark` line
+  were preserved unchanged.
+
+**Tailwind v4 token exposure:** the existing `@theme inline` block was
+extended (no new Tailwind config file was created) with
+`--color-gianetto-*` entries mapping to each `--gianetto-*` variable, so
+future components can use token-based utility classes such as
+`bg-gianetto-red` or `text-gianetto-charcoal` in addition to the existing
+shadcn semantic classes (`bg-primary`, `text-muted-foreground`, etc.).
+
+**Palette status:** the palette remains provisional until Gianetto
+provides an official logo file or an approved brand guide; this is stated
+in a comment directly above the `--gianetto-*` token block in
+`globals.css`.
+
+**Temporary landing-page styles:** the `TASK-033A` `.landing-*` rules in
+`globals.css` were audited; every hardcoded hex literal that matched an
+approved palette color was replaced with the corresponding `--gianetto-*`
+variable. No layout, spacing, typography, content, responsive behavior, or
+component structure was changed.
+
+**Dark mode:** an unused shadcn-generated `.dark { ... }` full-theme
+override block existed in `globals.css`. `src` was searched for a theme
+provider, a `.dark` class application, or any `next-themes`/similar
+usage; none exists — the only other `dark`-related references are the
+inert Tailwind `dark:` utility variants already present in the six
+installed `src/components/ui` component files, which have no effect
+because `.dark` is never applied anywhere in application code. Per ADR-020
+(no full dark mode in the MVP), the unused `.dark` override block was
+removed. The `@custom-variant dark (&:is(.dark *));` declaration was
+retained unchanged, since the installed shadcn/Rhea components already
+reference `dark:` utility classes and removing the variant declaration
+would break the Tailwind build. `--gianetto-dark-surface` was retained in
+the palette for future intentional dark sections (footer, live-event
+sections), per `DESIGN-SYSTEM.md` Section 6.2 and `DECISIONS.md` ADR-020.
+No new dark theme was built.
+
+**Contrast review** (WCAG relative-luminance contrast ratios computed with
+a temporary, uncommitted Node command; AA normal text requires ≥4.5:1, AA
+large text ≥3:1):
+
+```text
+White on Gianetto Red                 8.00  — pass (button text)
+White on Gianetto Red Dark            11.30 — pass (hover state)
+Charcoal on Warm Ivory                15.25 — pass (body text)
+Warm Gray on Warm Ivory               5.29  — pass (secondary text)
+Charcoal on Cream                     13.53 — pass
+Accent Foreground on Olive Soft       9.06  — pass
+Warm Ivory on Dark Surface            16.50 — pass
+White on Dark Surface                 17.27 — pass
+White on Success/Warning/Error/
+  Information/Cancelled               4.94–7.37 — pass (button/badge text)
+Success/Error/Information/Cancelled
+  text directly on Warm Ivory         6.06–8.89 — pass
+Warning text directly on Warm Ivory   4.73  — pass, but narrow margin
+Gold on White                         3.11  — FAILS normal text (4.5:1);
+                                                only marginal for large text
+Gold on Warm Ivory                    2.97  — fails even large-text (3:1)
+Olive on Olive Soft                   4.36  — FAILS normal text (4.5:1);
+                                                only acceptable for large
+                                                or decorative text
+Olive on Warm Ivory                   5.04  — pass
+```
+
+Findings recorded per the task's required minimum checks: White on
+Gianetto Red, Charcoal on Warm Ivory, Warm Gray on Warm Ivory, Charcoal on
+Cream, Accent Foreground on Olive Soft, and Warm Ivory/White on Dark
+Surface are all suitable for normal text; semantic
+foreground/background pairs remain readable. Gold must not be used as
+normal text on white or Warm Ivory (fails AA); Olive on Olive Soft must
+not be assumed safe as small/normal text (fails AA) and should be
+reserved for large text, icons, or decorative use. Status/semantic
+meaning must continue to rely on icons or text labels, not color alone,
+per `DESIGN-SYSTEM.md` Section 6.3 — no component logic was added in this
+task that would violate that rule.
+
+**Files changed:**
+
+```text
+src/app/globals.css
+docs/TASKS.md
+```
+
+**Validation performed:** `npm run lint` (passed), `npm run type-check`
+(passed), `npm run build` (passed — static export of `/` and
+`/_not-found`), `git diff --check` (no whitespace errors), `git status
+--short` (only `src/app/globals.css` and this documentation change).
+`components.json`, `package.json`, `package-lock.json`, `src/app/page.tsx`,
+`src/app/layout.tsx`, and all six files in `src/components/ui` were
+inspected but not modified.
 
 ---
 

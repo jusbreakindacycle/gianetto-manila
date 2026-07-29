@@ -46,6 +46,26 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+
+  --color-gianetto-red: var(--gianetto-red);
+  --color-gianetto-red-dark: var(--gianetto-red-dark);
+  --color-gianetto-red-soft: var(--gianetto-red-soft);
+  --color-gianetto-warm-ivory: var(--gianetto-warm-ivory);
+  --color-gianetto-cream: var(--gianetto-cream);
+  --color-gianetto-charcoal: var(--gianetto-charcoal);
+  --color-gianetto-warm-gray: var(--gianetto-warm-gray);
+  --color-gianetto-soft-border: var(--gianetto-soft-border);
+  --color-gianetto-white: var(--gianetto-white);
+  --color-gianetto-olive: var(--gianetto-olive);
+  --color-gianetto-olive-soft: var(--gianetto-olive-soft);
+  --color-gianetto-brick: var(--gianetto-brick);
+  --color-gianetto-gold: var(--gianetto-gold);
+  --color-gianetto-dark-surface: var(--gianetto-dark-surface);
+  --color-gianetto-success: var(--gianetto-success);
+  --color-gianetto-warning: var(--gianetto-warning);
+  --color-gianetto-error: var(--gianetto-error);
+  --color-gianetto-information: var(--gianetto-information);
+  --color-gianetto-cancelled: var(--gianetto-cancelled);
 }
 
 /* ============================================================
@@ -65,8 +85,8 @@
   justify-content: center;
   overflow: hidden;
   padding: 2rem 1.25rem;
-  background: #fff9f1;
-  color: #25211f;
+  background: var(--gianetto-warm-ivory);
+  color: var(--gianetto-charcoal);
 }
 
 .landing-backdrop {
@@ -89,13 +109,13 @@
 .landing-backdrop::before {
   top: -8rem;
   left: -8rem;
-  background: radial-gradient(circle, #f4e5e2 0%, transparent 70%);
+  background: radial-gradient(circle, var(--gianetto-red-soft) 0%, transparent 70%);
 }
 
 .landing-backdrop::after {
   bottom: -9rem;
   right: -9rem;
-  background: radial-gradient(circle, #e8ebdc 0%, transparent 70%);
+  background: radial-gradient(circle, var(--gianetto-olive-soft) 0%, transparent 70%);
 }
 
 .landing-content {
@@ -105,9 +125,9 @@
   max-width: 34rem;
   text-align: center;
   padding: clamp(2rem, 5vw, 3.5rem) clamp(1.5rem, 5vw, 2.5rem);
-  border: 1px solid #ded3c8;
+  border: 1px solid var(--gianetto-soft-border);
   border-radius: 1rem;
-  background: #fff9f1;
+  background: var(--gianetto-warm-ivory);
 }
 
 .landing-eyebrow {
@@ -115,7 +135,7 @@
   font-size: 0.8125rem;
   font-weight: 600;
   letter-spacing: 0.14em;
-  color: #9e1b1b;
+  color: var(--gianetto-red);
 }
 
 .landing-heading {
@@ -123,28 +143,28 @@
   font-family: Georgia, "Times New Roman", serif;
   font-size: clamp(2.5rem, 8vw, 4rem);
   line-height: 1.1;
-  color: #9e1b1b;
+  color: var(--gianetto-red);
 }
 
 .landing-message-primary {
   margin: 0 0 1rem;
   font-size: clamp(1.0625rem, 2.5vw, 1.25rem);
   line-height: 1.5;
-  color: #25211f;
+  color: var(--gianetto-charcoal);
 }
 
 .landing-message-support {
   margin: 0;
   font-size: 1rem;
   line-height: 1.6;
-  color: #6f6762;
+  color: var(--gianetto-warm-gray);
 }
 
 .landing-divider {
   width: 3rem;
   height: 1px;
   margin: 1.75rem auto;
-  background: #66704a;
+  background: var(--gianetto-olive);
 }
 
 .landing-closing {
@@ -152,7 +172,7 @@
   font-size: 0.9375rem;
   font-style: italic;
   line-height: 1.6;
-  color: #6f6762;
+  color: var(--gianetto-warm-gray);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -166,72 +186,63 @@
 }
 
 :root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
-}
+  /* Gianetto working palette (TASK-034) — provisional until official
+     brand assets or an approved brand guide are received. */
+  --gianetto-red: #9e1b1b;
+  --gianetto-red-dark: #751313;
+  --gianetto-red-soft: #f4e5e2;
+  --gianetto-warm-ivory: #fff9f1;
+  --gianetto-cream: #f5ebdd;
+  --gianetto-charcoal: #25211f;
+  --gianetto-warm-gray: #6f6762;
+  --gianetto-soft-border: #ded3c8;
+  --gianetto-white: #ffffff;
+  --gianetto-olive: #66704a;
+  --gianetto-olive-soft: #e8ebdc;
+  --gianetto-brick: #a9523e;
+  --gianetto-gold: #b88a44;
+  --gianetto-dark-surface: #1e1a18;
+  --gianetto-success: #2f6b45;
+  --gianetto-warning: #9a6516;
+  --gianetto-error: #b42318;
+  --gianetto-information: #315a75;
+  --gianetto-cancelled: #7a2e2e;
+  --gianetto-muted-surface: #f2ebe4;
+  --gianetto-accent-foreground: #354028;
 
-.dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.205 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.205 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.922 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.556 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.556 0 0);
+  --background: var(--gianetto-warm-ivory);
+  --foreground: var(--gianetto-charcoal);
+  --card: var(--gianetto-white);
+  --card-foreground: var(--gianetto-charcoal);
+  --popover: var(--gianetto-white);
+  --popover-foreground: var(--gianetto-charcoal);
+  --primary: var(--gianetto-red);
+  --primary-foreground: var(--gianetto-white);
+  --secondary: var(--gianetto-cream);
+  --secondary-foreground: var(--gianetto-charcoal);
+  --muted: var(--gianetto-muted-surface);
+  --muted-foreground: var(--gianetto-warm-gray);
+  --accent: var(--gianetto-olive-soft);
+  --accent-foreground: var(--gianetto-accent-foreground);
+  --destructive: var(--gianetto-error);
+  --destructive-foreground: var(--gianetto-white);
+  --border: var(--gianetto-soft-border);
+  --input: var(--gianetto-soft-border);
+  --ring: var(--gianetto-red);
+  --chart-1: var(--gianetto-red);
+  --chart-2: var(--gianetto-olive);
+  --chart-3: var(--gianetto-gold);
+  --chart-4: var(--gianetto-brick);
+  --chart-5: var(--gianetto-information);
+  --radius: 0.625rem;
+  --sidebar: var(--gianetto-cream);
+  --sidebar-foreground: var(--gianetto-charcoal);
+  --sidebar-primary: var(--gianetto-red);
+  --sidebar-primary-foreground: var(--gianetto-white);
+  --sidebar-accent: var(--gianetto-olive-soft);
+  --sidebar-accent-foreground: var(--gianetto-accent-foreground);
+  --sidebar-border: var(--gianetto-soft-border);
+  --sidebar-ring: var(--gianetto-red);
 }
 
 @layer base {
