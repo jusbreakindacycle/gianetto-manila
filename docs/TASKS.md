@@ -257,6 +257,14 @@ static-prototype work is complete through the Safe Temporary Option, and
 production menu content remains dependent on TASK-005. Phase 4 remains
 REVIEW pending the rest of JL's local visual review.
 
+Phase 4 local-review note (2026-07-29): Gianetto's existing observed
+tagline, "Delight in every bite!", was added to the homepage hero, replacing
+the placeholder headline. The tagline is associated with Gianetto's
+existing public brand materials, per the CONTENT-INVENTORY.md tagline entry
+(Section 5, Known Brand Information). Final owner review will confirm
+whether it should continue to be used on the production website. Phase 4
+remains REVIEW pending the rest of JL's local visual review.
+
 Completed foundation documents:
 
 ```text

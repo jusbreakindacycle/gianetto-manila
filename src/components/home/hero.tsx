@@ -21,7 +21,7 @@ function Hero() {
           Working Preview
         </p>
         <h1 className="max-w-3xl text-display-hero font-heading text-gianetto-white md:text-display-hero-desktop">
-          A Gianetto table, made for gathering
+          Delight in every bite!
         </h1>
         <p className="max-w-prose text-body-large text-gianetto-warm-ivory">
           This is a working preview of Gianetto&apos;s official website.
