@@ -1223,7 +1223,7 @@ Add form-specific components only when the first form requires them.
 ## TASK-032 — Create Minimal Directory Foundation
 
 **Phase:** Repository Initialization  
-**Status:** BACKLOG  
+**Status:** DONE  
 **Priority:** MEDIUM  
 **Dependencies:** TASK-025  
 
@@ -1247,6 +1247,17 @@ Do not create empty future feature trees.
 - structure is minimal;
 - no empty architecture theatre;
 - directories correspond to immediate tasks.
+
+### Completion Evidence
+
+- `src/app` already exists as the Next.js App Router foundation;
+- `src/components/ui` exists and contains the approved shadcn components;
+- `src/lib` exists and contains shared utilities (`cn` helper in `src/lib/utils.ts`);
+- `docs` exists and contains the controlling project documentation;
+- `public` exists as the public static-assets root;
+- empty future directories were deliberately not created;
+- `src/types`, `public/brand`, and `public/placeholders` do not yet exist and will be introduced only when their first real type definition, approved brand asset, or approved placeholder asset is required, per the project rule against premature architecture;
+- no application or package files were changed.
 
 ---
 
