@@ -236,6 +236,27 @@ close any Phase 0 task — TASK-001 through TASK-011 remain BLOCKED/READY
 as recorded in Section 6, and production content still requires owner
 verification.
 
+Phase 4 local-review correction (2026-07-29): during JL's local visual
+review, the browser dev overlay surfaced runtime Base UI warnings
+("A component that acts as a button expected a native `<button>`") on
+navigation actions implemented as `<Button render={<Link .../>}>`. All
+affected navigation actions across the header, mobile navigation, footer
+composition, hero, homepage sections, branch/event cards, branch detail
+template, contact, our-story, not-found, and the event-detail route were
+corrected to plain Next.js `Link` styled with the exported `buttonVariants`
+helper; `Button` no longer renders `Link` or an anchor anywhere. Mobile
+navigation now controls the Sheet's open state directly and closes it from
+each `Link`'s `onClick`, preserving link semantics instead of nesting
+`Button`/`SheetClose` around navigation. Demo-only "a Gianetto
+representative will follow up / will contact you" copy (reservation CTA,
+private-events section, branch detail template, event-detail page,
+reservations and private-events pages) was corrected to accurate demo-safe
+wording, since no inquiry is actually sent. The stale `src/data/menu.ts`
+comment claiming TASK-048/TASK-051 remain BLOCKED was reconciled: their
+static-prototype work is complete through the Safe Temporary Option, and
+production menu content remains dependent on TASK-005. Phase 4 remains
+REVIEW pending the rest of JL's local visual review.
+
 Completed foundation documents:
 
 ```text

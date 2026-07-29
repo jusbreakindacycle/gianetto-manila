@@ -1,6 +1,6 @@
 import Link from "next/link"
 
-import { Button } from "@/components/ui/button"
+import { buttonVariants } from "@/components/ui/button"
 import { PageContainer } from "@/components/layout/page-container"
 import { SectionHeading } from "@/components/layout/section-heading"
 import { MenuItemCard } from "@/components/public/menu-item-card"
@@ -22,9 +22,9 @@ function FeaturedDishes() {
           title="Featured Dishes"
           description="Sample entries drawn from the working menu data, used to preview this section. These are design placeholders, not Gianetto's confirmed current dishes."
           action={
-            <Button variant="secondary" render={<Link href="/menu" />}>
+            <Link href="/menu" className={buttonVariants({ variant: "secondary" })}>
               View full menu
-            </Button>
+            </Link>
           }
         />
         <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">

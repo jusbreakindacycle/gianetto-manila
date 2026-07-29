@@ -6,11 +6,12 @@ import type {
 /**
  * Neutral sample menu data for the static prototype (TASK-048).
  *
- * TASK-048 and TASK-051 remain BLOCKED in docs/TASKS.md pending the
- * current Gianetto menu — this file is the documented Safe Temporary
- * Option: generic sample categories and items that do not mimic any
- * confirmed current or historical Gianetto menu. Prices are always
- * null; descriptions are intentionally generic and demonstrative.
+ * TASK-048 and TASK-051's static-prototype work is complete through
+ * this Safe Temporary Option: generic sample categories and items that
+ * do not mimic any confirmed current or historical Gianetto menu.
+ * Production menu content remains dependent on TASK-005 — owner-approved
+ * current menu content is still required before production. Prices are
+ * always null; descriptions are intentionally generic and demonstrative.
  */
 const MENU_CATEGORIES: TemporaryMenuCategory[] = [
   {

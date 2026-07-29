@@ -25,9 +25,10 @@ export default function PrivateEventsPage() {
 
       <div className="rounded-xl border border-border bg-secondary/40 p-6">
         <p className="text-body text-foreground">
-          Submitting this form does not confirm a booking. Once connected, a
-          Gianetto representative would follow up to discuss availability,
-          options, and any applicable policies.
+          Preview the private-event inquiry interface and the information it
+          may request. This demo does not send an inquiry. Final packages,
+          capacities, pricing, and response procedures require Gianetto
+          approval.
         </p>
       </div>
 

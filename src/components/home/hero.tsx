@@ -1,6 +1,7 @@
 import Link from "next/link"
 
-import { Button } from "@/components/ui/button"
+import { buttonVariants } from "@/components/ui/button"
+import { cn } from "@/lib/utils"
 import { PageContainer } from "@/components/layout/page-container"
 
 /**
@@ -28,17 +29,24 @@ function Hero() {
           still pending owner confirmation.
         </p>
         <div className="flex flex-wrap gap-3">
-          <Button render={<Link href="/menu" />}>View Menu</Button>
-          <Button variant="secondary" render={<Link href="/reservations" />}>
+          <Link href="/menu" className={buttonVariants({ variant: "primary" })}>
+            View Menu
+          </Link>
+          <Link
+            href="/reservations"
+            className={buttonVariants({ variant: "secondary" })}
+          >
             Reserve a Table
-          </Button>
-          <Button
-            variant="outline"
-            className="border-gianetto-warm-ivory/40 text-gianetto-warm-ivory hover:bg-gianetto-warm-ivory/10"
-            render={<Link href="/branches" />}
+          </Link>
+          <Link
+            href="/branches"
+            className={cn(
+              buttonVariants({ variant: "outline" }),
+              "border-gianetto-warm-ivory/40 text-gianetto-warm-ivory hover:bg-gianetto-warm-ivory/10"
+            )}
           >
             Explore Branches
-          </Button>
+          </Link>
         </div>
       </PageContainer>
     </section>

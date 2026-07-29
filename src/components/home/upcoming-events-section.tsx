@@ -1,6 +1,6 @@
 import Link from "next/link"
 
-import { Button } from "@/components/ui/button"
+import { buttonVariants } from "@/components/ui/button"
 import { PageContainer } from "@/components/layout/page-container"
 import { SectionHeading } from "@/components/layout/section-heading"
 import { EventCard } from "@/components/public/event-card"
@@ -24,9 +24,12 @@ function UpcomingEventsSection() {
           title="Upcoming at Gianetto"
           description="Sample event listings used to preview this section. These are fictional demonstration events, not a confirmed schedule."
           action={
-            <Button variant="secondary" render={<Link href="/events" />}>
+            <Link
+              href="/events"
+              className={buttonVariants({ variant: "secondary" })}
+            >
               View all events
-            </Button>
+            </Link>
           }
         />
         {events.length > 0 ? (

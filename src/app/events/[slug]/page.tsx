@@ -2,7 +2,7 @@ import type { Metadata } from "next"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 
-import { Button } from "@/components/ui/button"
+import { buttonVariants } from "@/components/ui/button"
 import { PageContainer } from "@/components/layout/page-container"
 import { PlaceholderVisual } from "@/components/shared/placeholder-visual"
 import { StatusBadge } from "@/components/shared/status-badge"
@@ -101,15 +101,20 @@ export default async function EventPage({ params }: EventPageProps) {
           <p className="text-body text-foreground">
             This is a fictional sample event used to preview this page. It
             is not a confirmed date, and attending it cannot be booked
-            through this demo. For an actual visit, start a reservation
-            inquiry and a Gianetto representative will follow up.
+            through this demo. For an actual visit, review the reservation
+            inquiry preview. This demo does not send an inquiry, and
+            Gianetto&apos;s final reservation process is still pending owner
+            confirmation.
           </p>
         </div>
       )}
 
-      <Button className="w-fit" render={<Link href="/reservations" />}>
+      <Link
+        href="/reservations"
+        className={buttonVariants({ className: "w-fit" })}
+      >
         Start a reservation inquiry
-      </Button>
+      </Link>
     </PageContainer>
   )
 }

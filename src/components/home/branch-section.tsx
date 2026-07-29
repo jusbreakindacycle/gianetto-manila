@@ -1,6 +1,6 @@
 import Link from "next/link"
 
-import { Button } from "@/components/ui/button"
+import { buttonVariants } from "@/components/ui/button"
 import { PageContainer } from "@/components/layout/page-container"
 import { SectionHeading } from "@/components/layout/section-heading"
 import { BranchCard } from "@/components/public/branch-card"
@@ -21,9 +21,12 @@ function BranchSection() {
           title="Our Branches"
           description="A working preview of Gianetto's branch listing. Locations shown here are provisional and pending owner verification."
           action={
-            <Button variant="secondary" render={<Link href="/branches" />}>
+            <Link
+              href="/branches"
+              className={buttonVariants({ variant: "secondary" })}
+            >
               View all branches
-            </Button>
+            </Link>
           }
         />
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">

@@ -1,12 +1,12 @@
 "use client"
 
+import { useState } from "react"
 import Link from "next/link"
 import { MenuIcon } from "lucide-react"
 
-import { Button } from "@/components/ui/button"
+import { Button, buttonVariants } from "@/components/ui/button"
 import {
   Sheet,
-  SheetClose,
   SheetContent,
   SheetFooter,
   SheetHeader,
@@ -19,8 +19,10 @@ import {
 } from "@/lib/public-navigation"
 
 function MobileNavigation() {
+  const [open, setOpen] = useState(false)
+
   return (
-    <Sheet>
+    <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger render={<Button variant="ghost" size="icon" />}>
         <MenuIcon aria-hidden="true" />
         <span className="sr-only">Open menu</span>
@@ -32,31 +34,25 @@ function MobileNavigation() {
 
         <nav aria-label="Primary" className="flex flex-1 flex-col gap-1 px-6">
           {PUBLIC_NAVIGATION_ITEMS.map((item) => (
-            <SheetClose
+            <Link
               key={item.href}
-              render={
-                <Link
-                  href={item.href}
-                  className="rounded-md px-3 py-3 text-base font-medium text-foreground hover:bg-muted focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/30"
-                />
-              }
+              href={item.href}
+              onClick={() => setOpen(false)}
+              className="rounded-md px-3 py-3 text-base font-medium text-foreground hover:bg-muted focus-visible:outline-none focus-visible:ring-3 focus-visible:ring-ring/30"
             >
               {item.label}
-            </SheetClose>
+            </Link>
           ))}
         </nav>
 
         <SheetFooter>
-          <SheetClose
-            render={
-              <Button
-                className="w-full"
-                render={<Link href={RESERVATION_NAVIGATION_ITEM.href} />}
-              />
-            }
+          <Link
+            href={RESERVATION_NAVIGATION_ITEM.href}
+            onClick={() => setOpen(false)}
+            className={buttonVariants({ className: "w-full" })}
           >
             {RESERVATION_NAVIGATION_ITEM.label}
-          </SheetClose>
+          </Link>
         </SheetFooter>
       </SheetContent>
     </Sheet>

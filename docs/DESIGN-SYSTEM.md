@@ -1053,6 +1053,18 @@ close button). The `default`/`link` variants from the original shadcn/Rhea
 scaffold were removed as unused; `outline` and `ghost` are unchanged
 identifiers.
 
+## 23.6 Button/Link Composition Rule
+
+`Button` is reserved for genuine button actions (form submit, dialog/sheet
+triggers, non-navigating controls) — Base UI `Button` defaults to
+`nativeButton=true` and must keep rendering a native `<button>`. Navigation
+that should look like a button uses a plain Next.js `Link` styled with the
+exported `buttonVariants` helper (`className={buttonVariants({ variant, size })}`,
+combined with `cn()` when extra classes are needed) — `Button` must never
+render `Link` or an anchor. Mobile-sheet navigation links preserve anchor
+semantics (no `Button`/`SheetClose` wrapping); the Sheet's open state is
+controlled directly so a `Link`'s `onClick` can close it.
+
 ---
 
 # 24. Section Heading Component

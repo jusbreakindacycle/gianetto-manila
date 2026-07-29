@@ -1,7 +1,7 @@
 import Link from "next/link"
 import type { Metadata } from "next"
 
-import { Button } from "@/components/ui/button"
+import { buttonVariants } from "@/components/ui/button"
 import { PageContainer } from "@/components/layout/page-container"
 import { SectionHeading } from "@/components/layout/section-heading"
 
@@ -34,10 +34,15 @@ export default function OurStoryPage() {
       </div>
 
       <div className="flex flex-wrap gap-3">
-        <Button render={<Link href="/menu" />}>View Menu</Button>
-        <Button variant="secondary" render={<Link href="/branches" />}>
+        <Link href="/menu" className={buttonVariants({ variant: "primary" })}>
+          View Menu
+        </Link>
+        <Link
+          href="/branches"
+          className={buttonVariants({ variant: "secondary" })}
+        >
           Explore Branches
-        </Button>
+        </Link>
       </div>
     </PageContainer>
   )

@@ -1,6 +1,6 @@
 import Link from "next/link"
 
-import { Button } from "@/components/ui/button"
+import { buttonVariants } from "@/components/ui/button"
 import { PageContainer } from "@/components/layout/page-container"
 import { SectionHeading } from "@/components/layout/section-heading"
 import { PlaceholderVisual } from "@/components/shared/placeholder-visual"
@@ -16,11 +16,14 @@ function PrivateEventsSection() {
         <SectionHeading
           eyebrow="Private Events"
           title="Host your next gathering at Gianetto"
-          description="Gianetto branches may be able to host birthdays, anniversaries, and small gatherings. Packages, capacities, and pricing are not yet confirmed — send an inquiry with your preferred date and a Gianetto representative will follow up."
+          description="Preview the private-event inquiry interface and the information it may request. This demo does not send an inquiry. Final packages, capacities, pricing, and response procedures require Gianetto approval."
           action={
-            <Button render={<Link href="/private-events" />}>
+            <Link
+              href="/private-events"
+              className={buttonVariants({ variant: "primary" })}
+            >
               Start a private-event inquiry
-            </Button>
+            </Link>
           }
         />
         <PlaceholderVisual aspect="4/3" label="Gianetto private event setup" />

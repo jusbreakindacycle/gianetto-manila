@@ -1,6 +1,6 @@
 import Link from "next/link"
 
-import { Button } from "@/components/ui/button"
+import { buttonVariants } from "@/components/ui/button"
 import { PlaceholderVisual } from "@/components/shared/placeholder-visual"
 import type { TemporaryBranch } from "@/types/temporary-content"
 
@@ -32,16 +32,18 @@ function BranchCard({ branch }: BranchCardProps) {
       </div>
 
       <div className="flex flex-wrap gap-3">
-        <Button size="sm" render={<Link href={`/branches/${branch.slug}`} />}>
+        <Link
+          href={`/branches/${branch.slug}`}
+          className={buttonVariants({ size: "sm" })}
+        >
           View branch details
-        </Button>
-        <Button
-          size="sm"
-          variant="secondary"
-          render={<Link href="/reservations" />}
+        </Link>
+        <Link
+          href="/reservations"
+          className={buttonVariants({ variant: "secondary", size: "sm" })}
         >
           Start a reservation inquiry
-        </Button>
+        </Link>
       </div>
     </article>
   )

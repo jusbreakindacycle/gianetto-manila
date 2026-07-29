@@ -1,6 +1,6 @@
 import Link from "next/link"
 
-import { Button } from "@/components/ui/button"
+import { buttonVariants } from "@/components/ui/button"
 import { PageContainer } from "@/components/layout/page-container"
 import { SectionHeading } from "@/components/layout/section-heading"
 import { PlaceholderVisual } from "@/components/shared/placeholder-visual"
@@ -131,13 +131,12 @@ function BranchDetailTemplate({ branch }: BranchDetailTemplateProps) {
             Featured dishes for this branch are still being finalized.
           </p>
         )}
-        <Button
-          variant="secondary"
-          className="w-fit"
-          render={<Link href="/menu" />}
+        <Link
+          href="/menu"
+          className={buttonVariants({ variant: "secondary", className: "w-fit" })}
         >
           View the full sample menu
-        </Button>
+        </Link>
       </section>
 
       <section className="flex flex-col gap-6">
@@ -162,13 +161,12 @@ function BranchDetailTemplate({ branch }: BranchDetailTemplateProps) {
             No upcoming events are currently published for this branch.
           </p>
         )}
-        <Button
-          variant="secondary"
-          className="w-fit"
-          render={<Link href="/events" />}
+        <Link
+          href="/events"
+          className={buttonVariants({ variant: "secondary", className: "w-fit" })}
         >
           View all events
-        </Button>
+        </Link>
       </section>
 
       <section className="flex flex-col gap-6">
@@ -181,13 +179,12 @@ function BranchDetailTemplate({ branch }: BranchDetailTemplateProps) {
           <PlaceholderVisual aspect="1/1" label={`${branch.name} gallery`} />
           <PlaceholderVisual aspect="1/1" label={`${branch.name} gallery`} />
         </div>
-        <Button
-          variant="secondary"
-          className="w-fit"
-          render={<Link href="/gallery" />}
+        <Link
+          href="/gallery"
+          className={buttonVariants({ variant: "secondary", className: "w-fit" })}
         >
           View gallery
-        </Button>
+        </Link>
       </section>
 
       <section className="flex flex-col gap-4 rounded-xl border border-border bg-secondary/40 p-8">
@@ -196,16 +193,16 @@ function BranchDetailTemplate({ branch }: BranchDetailTemplateProps) {
         </h2>
         <p className="text-body text-muted-foreground">
           This branch may be able to host private gatherings. Capacities,
-          packages, and pricing are not yet confirmed — reach out with your
-          preferred date and Gianetto will follow up.
+          packages, and pricing are not yet confirmed. Preview the
+          private-event inquiry interface below — this demo does not send an
+          inquiry, and final packages require Gianetto&apos;s approval.
         </p>
-        <Button
-          variant="secondary"
-          className="w-fit"
-          render={<Link href="/private-events" />}
+        <Link
+          href="/private-events"
+          className={buttonVariants({ variant: "secondary", className: "w-fit" })}
         >
           Start a private-event inquiry
-        </Button>
+        </Link>
       </section>
 
       <section className="flex flex-col gap-4 rounded-xl border border-border bg-card p-8">
@@ -213,13 +210,16 @@ function BranchDetailTemplate({ branch }: BranchDetailTemplateProps) {
           Reserve a Table
         </h2>
         <p className="text-body text-muted-foreground">
-          Submitting a reservation inquiry does not confirm a table. A
-          Gianetto representative will follow up after checking
-          availability.
+          Preview the reservation inquiry interface below. This demo does not
+          send an inquiry, and Gianetto&apos;s final reservation process
+          remains subject to owner confirmation.
         </p>
-        <Button className="w-fit" render={<Link href="/reservations" />}>
+        <Link
+          href="/reservations"
+          className={buttonVariants({ className: "w-fit" })}
+        >
           Start a reservation inquiry
-        </Button>
+        </Link>
       </section>
     </PageContainer>
   )

@@ -1,8 +1,9 @@
 import Link from "next/link"
 
-import { Button } from "@/components/ui/button"
+import { buttonVariants } from "@/components/ui/button"
 import { PageContainer } from "@/components/layout/page-container"
 import { MobileNavigation } from "@/components/layout/mobile-navigation"
+import { cn } from "@/lib/utils"
 import {
   PUBLIC_NAVIGATION_ITEMS,
   RESERVATION_NAVIGATION_ITEM,
@@ -36,19 +37,24 @@ function SiteHeader() {
         </nav>
 
         <div className="hidden lg:flex">
-          <Button render={<Link href={RESERVATION_NAVIGATION_ITEM.href} />}>
+          <Link
+            href={RESERVATION_NAVIGATION_ITEM.href}
+            className={buttonVariants({ variant: "primary" })}
+          >
             {RESERVATION_NAVIGATION_ITEM.label}
-          </Button>
+          </Link>
         </div>
 
         <div className="flex items-center gap-2 lg:hidden">
-          <Button
-            size="sm"
-            className="hidden sm:inline-flex"
-            render={<Link href={RESERVATION_NAVIGATION_ITEM.href} />}
+          <Link
+            href={RESERVATION_NAVIGATION_ITEM.href}
+            className={cn(
+              buttonVariants({ size: "sm" }),
+              "hidden sm:inline-flex"
+            )}
           >
             {RESERVATION_NAVIGATION_ITEM.label}
-          </Button>
+          </Link>
           <MobileNavigation />
         </div>
       </PageContainer>

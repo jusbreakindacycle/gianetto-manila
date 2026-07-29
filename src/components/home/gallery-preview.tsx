@@ -1,6 +1,6 @@
 import Link from "next/link"
 
-import { Button } from "@/components/ui/button"
+import { buttonVariants } from "@/components/ui/button"
 import { PageContainer } from "@/components/layout/page-container"
 import { SectionHeading } from "@/components/layout/section-heading"
 import { GalleryGrid } from "@/components/public/gallery-grid"
@@ -22,9 +22,12 @@ function GalleryPreview() {
           title="Moments from Gianetto"
           description="Abstract placeholders used to preview this section's grid. These are not photographs of Gianetto."
           action={
-            <Button variant="secondary" render={<Link href="/gallery" />}>
+            <Link
+              href="/gallery"
+              className={buttonVariants({ variant: "secondary" })}
+            >
               View gallery
-            </Button>
+            </Link>
           }
         />
         <GalleryGrid

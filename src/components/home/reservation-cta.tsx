@@ -1,6 +1,6 @@
 import Link from "next/link"
 
-import { Button } from "@/components/ui/button"
+import { buttonVariants } from "@/components/ui/button"
 import { PageContainer } from "@/components/layout/page-container"
 
 /**
@@ -15,13 +15,16 @@ function ReservationCta() {
           Ready for your next table?
         </h2>
         <p className="max-w-prose text-body-large text-gianetto-warm-ivory">
-          Send a reservation inquiry and a Gianetto representative will
-          follow up to check availability. Submitting this form does not
-          automatically confirm a table.
+          Preview the reservation inquiry interface. This demo does not send
+          an inquiry, and Gianetto&apos;s final reservation process remains
+          subject to owner confirmation.
         </p>
-        <Button variant="secondary" render={<Link href="/reservations" />}>
+        <Link
+          href="/reservations"
+          className={buttonVariants({ variant: "secondary" })}
+        >
           Start a Reservation Inquiry
-        </Button>
+        </Link>
       </PageContainer>
     </section>
   )

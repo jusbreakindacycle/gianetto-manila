@@ -1,6 +1,6 @@
 import Link from "next/link"
 
-import { Button } from "@/components/ui/button"
+import { buttonVariants } from "@/components/ui/button"
 import { PageContainer } from "@/components/layout/page-container"
 
 export default function NotFound() {
@@ -20,13 +20,21 @@ export default function NotFound() {
       </div>
 
       <div className="flex flex-wrap gap-3">
-        <Button render={<Link href="/" />}>Go to Home</Button>
-        <Button variant="secondary" render={<Link href="/menu" />}>
+        <Link href="/" className={buttonVariants({ variant: "primary" })}>
+          Go to Home
+        </Link>
+        <Link
+          href="/menu"
+          className={buttonVariants({ variant: "secondary" })}
+        >
           View Menu
-        </Button>
-        <Button variant="secondary" render={<Link href="/branches" />}>
+        </Link>
+        <Link
+          href="/branches"
+          className={buttonVariants({ variant: "secondary" })}
+        >
           View Branches
-        </Button>
+        </Link>
       </div>
     </PageContainer>
   )

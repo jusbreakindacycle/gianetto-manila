@@ -1,7 +1,7 @@
 import Link from "next/link"
 import type { Metadata } from "next"
 
-import { Button } from "@/components/ui/button"
+import { buttonVariants } from "@/components/ui/button"
 import { PageContainer } from "@/components/layout/page-container"
 import { SectionHeading } from "@/components/layout/section-heading"
 import { getActiveBranches } from "@/data/branches"
@@ -40,13 +40,12 @@ export default function ContactPage() {
               Phone, email, and hours: pending owner verification.
             </p>
             <div className="mt-2 flex flex-wrap gap-3">
-              <Button
-                size="sm"
-                variant="secondary"
-                render={<Link href={`/branches/${branch.slug}`} />}
+              <Link
+                href={`/branches/${branch.slug}`}
+                className={buttonVariants({ variant: "secondary", size: "sm" })}
               >
                 View branch details
-              </Button>
+              </Link>
             </div>
           </address>
         ))}
@@ -61,12 +60,15 @@ export default function ContactPage() {
           below rather than the pending contact details above.
         </p>
         <div className="flex flex-wrap gap-3">
-          <Button render={<Link href="/reservations" />}>
+          <Link href="/reservations" className={buttonVariants({ variant: "primary" })}>
             Reservation Inquiry
-          </Button>
-          <Button variant="secondary" render={<Link href="/private-events" />}>
+          </Link>
+          <Link
+            href="/private-events"
+            className={buttonVariants({ variant: "secondary" })}
+          >
             Private-Event Inquiry
-          </Button>
+          </Link>
         </div>
       </div>
     </PageContainer>

@@ -25,9 +25,9 @@ export default function ReservationsPage() {
 
       <div className="rounded-xl border border-border bg-secondary/40 p-6">
         <p className="text-body text-foreground">
-          Submitting this form does not confirm a table. Once connected, a
-          Gianetto representative would contact you after checking
-          availability.
+          Preview the reservation inquiry interface. This demo does not send
+          an inquiry, and Gianetto&apos;s final reservation process remains
+          subject to owner confirmation.
         </p>
       </div>
 
